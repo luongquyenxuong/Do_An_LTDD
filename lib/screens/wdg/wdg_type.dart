@@ -26,7 +26,7 @@ class _State extends State<TypeProduct> {
               )
             ),
       child: FutureBuilder<List<LoaiSanPham>>(
-        future:API_DS_Loai() ,
+        future:apiListLoai() ,
          builder: (context, snapshot){
           return ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -35,6 +35,7 @@ class _State extends State<TypeProduct> {
             itemCount: snapshot.data?.length??0,
             itemBuilder: (ctx, i) => 
                  Typeprd(
+                  id:snapshot.data![i].iD!,
                   name: snapshot.data![i].tenLoaiSP!,
                   imageUrl: snapshot.data![i].hinhAnh!,
                   size: size,

@@ -1,18 +1,23 @@
 //import 'package:app_thoi_trang/models/product.dart';
+import 'package:app_thoi_trang/screens/home/show_screen.dart';
+//import 'package:app_thoi_trang/screens/wdg/wdg_product_type.dart';
 import 'package:flutter/material.dart';
 //import 'package:provider/provider.dart';
 
 class Typeprd extends StatelessWidget {
+  final int id;
   final String name;
   final String imageUrl;
   final Size size;
 
   // ignore: prefer_const_constructors_in_immutables
-  Typeprd({Key? key, required this.name, required this.imageUrl,required this.size}) : super(key: key);
+  Typeprd({Key? key,required this.id, required this.name, required this.imageUrl,required this.size}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:id,) ));
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(
                       left: 20.0,

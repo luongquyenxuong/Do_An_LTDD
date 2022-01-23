@@ -7,8 +7,8 @@ import 'dart:async';
 
 String uriBase="http://10.0.2.2:8000/api/";
 
-// ignore: non_constant_identifier_names
-Future<List<SanPham>> API_ds_SanPham() async{
+
+Future<List<SanPham>> apiListSanPham() async{
     var uri = uriBase+'san-pham';
     List<SanPham> dsSanPham=[];
     try {
@@ -22,8 +22,22 @@ Future<List<SanPham>> API_ds_SanPham() async{
     }
     return dsSanPham;
 }
-// ignore: non_constant_identifier_names
-Future<List<LoaiSanPham>> API_DS_Loai() async{
+Future<List<SanPham>> apiListLoaiSanpham(int idLoai) async{
+    var uri = uriBase+'sp-loai/$idLoai';
+    List<SanPham> dsSanPhamLoai=[];
+    try {
+     final response=await http.get(Uri.parse(uri));
+      if(response.statusCode==200){
+        List jsonRaw =jsonDecode(response.body);
+        dsSanPhamLoai =jsonRaw.map((e) => SanPham.fromJson(e)).toList();
+      }
+    } catch (_) {
+
+    }
+    return dsSanPhamLoai;
+}
+
+Future<List<LoaiSanPham>> apiListLoai() async{
     var uri = uriBase+'loai';
     List<LoaiSanPham> dsLoai=[];
     try {
@@ -37,8 +51,8 @@ Future<List<LoaiSanPham>> API_DS_Loai() async{
     }
     return dsLoai;
 }
-Future<SanPham?> apiSanPham() async{
-    var uri = uriBase+'san-pham/9';
+Future<SanPham?> apiSanPham(int id) async{
+    var uri = uriBase+'san-pham/$id';
     try {
      final response=await http.get(Uri.parse(uri));
       if(response.statusCode==200){

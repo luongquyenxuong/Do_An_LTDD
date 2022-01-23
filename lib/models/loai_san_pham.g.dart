@@ -7,7 +7,7 @@ part of 'loai_san_pham.dart';
 // **************************************************************************
 
 LoaiSanPham _$LoaiSanPhamFromJson(Map<String, dynamic> json) => LoaiSanPham(
-      iD: json['ID'] as int?,
+      iD: json['id'] as int?,
       tenLoaiSP: json['TenLoaiSP'] as String?,
       hinhAnh: json['HinhAnh'] as String?,
       trangThai: json['TrangThai'] as int?,
@@ -15,7 +15,7 @@ LoaiSanPham _$LoaiSanPhamFromJson(Map<String, dynamic> json) => LoaiSanPham(
 
 Map<String, dynamic> _$LoaiSanPhamToJson(LoaiSanPham instance) =>
     <String, dynamic>{
-      'ID': instance.iD,
+      'id': instance.iD,
       'TenLoaiSP': instance.tenLoaiSP,
       'HinhAnh': instance.hinhAnh,
       'TrangThai': instance.trangThai,

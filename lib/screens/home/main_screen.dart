@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
-
 import 'nav_drawer.dart';
 
 
@@ -84,7 +83,7 @@ class _HomeState extends State<HomeScreen> {
           SizedBox(
             height: 200,
             child: FutureBuilder<List<SanPham>>(
-              future:API_ds_SanPham(),
+              future:apiListSanPham(),
                builder:
                (context, snapshot){
                  return CarouselSlider.builder(
@@ -115,7 +114,7 @@ class _HomeState extends State<HomeScreen> {
           const SizedBox(height: 1.0),
          const TypeProduct(),
          const AllProducts(),
-        
+         const SizedBox(height: 50),
         ],
         
       ),

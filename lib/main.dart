@@ -12,7 +12,7 @@ import 'screens/cart/cart_screen.dart';
 import 'screens/cart/detail_cart_screen.dart';
 import 'screens/home/comment_screen.dart';
 import 'screens/home/search_screen.dart';
-import 'screens/product_deltail/product_deltail_screen.dart';
+//import 'screens/product_deltail/product_deltail_screen.dart';
 import 'screens/user/address_user_screen.dart';
 import 'screens/user/change_info_screen.dart';
 import 'screens/user/change_pass_screen.dart';
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
           '/chitietdonhang':(context)=>const Detail(),
           '/donmua':(context)=>const DonHangScreen(),
           '/danhgia':(context)=>const CommentScreen(),
-          '/chitietsanpham':(context)=>const ProductDetailScreen(),
+          //'/chitietsanpham':(context)=>ProductDetailScreen(),
         },
         ),
     );
