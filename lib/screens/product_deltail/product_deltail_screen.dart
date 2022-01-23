@@ -249,6 +249,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 InkWell(
                   onTap: () {},
                   child: Container(
+                    
                       width: 211.36,
                       color: Colors.red,
                       child:const Center(child: Text('Mua ngay'))),
