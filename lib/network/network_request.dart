@@ -10,7 +10,7 @@ import '../models/address_user.dart';
 import '../models/loai_san_pham.dart';
 import '../models/product.dart';
 
-String uriBase = "http://127.0.0.1:8000/api/";
+String uriBase = "http://10.0.2.2:8000/api/";
 
 Future<List<Product>> apiListSanPham() async {
   var uri = uriBase + 'san-pham';
@@ -106,7 +106,7 @@ Future<User> login(String email, String password, context) async {
           builder: (context) => AlertDialog(
                 title: const Text("Đăng nhập thất bai"),
                 content:
-                    const Text("Vui lòng nhập lại tài khoản hoặc mật khẩu"),
+                    const Text("Sai email hoặc mật khẩu"),
                 actions: <Widget>[
                   TextButton(
                     child: const Text("Ok"),
