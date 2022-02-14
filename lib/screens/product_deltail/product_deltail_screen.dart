@@ -8,19 +8,19 @@
 import 'package:flutter/material.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  final String ten;
-  final int gia;
-  final String hinhAnh;
-  final String moTa;
-  final String thongTin;
+   String? ten;
+   int? gia;
+   String? hinhAnh;
+   String? moTa;
+   String? thongTin;
 
-  const ProductDetailScreen(
+   ProductDetailScreen(
       {Key? key,
-      required this.ten,
-      required this.gia,
-      required this.hinhAnh,
-      required this.moTa,
-      required this.thongTin})
+       this.ten,
+       this.gia,
+       this.hinhAnh,
+       this.moTa,
+       this.thongTin})
       : super(key: key);
 
   @override
@@ -31,11 +31,11 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int soluong = 1;
-  final String ten;
-  final int gia;
-  final String hinhAnh;
-  final String moTa;
-  final String thongTin;
+  final String? ten;
+  final int? gia;
+  final String? hinhAnh;
+  final String? moTa;
+  final String? thongTin;
 
   _ProductDetailScreenState(
       this.ten, this.gia, this.hinhAnh, this.moTa, this.thongTin);
@@ -77,7 +77,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              ten,
+              ten!,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ),
@@ -184,7 +184,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              moTa,
+              moTa!,
               style: const TextStyle(),
             ),
           ),
@@ -198,7 +198,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              thongTin,
+              thongTin!,
               style: const TextStyle(),
             ),
           ),

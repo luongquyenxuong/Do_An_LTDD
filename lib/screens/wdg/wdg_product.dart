@@ -39,13 +39,13 @@ class _AllProductsState extends State<AllProducts> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (ctx, i) => PdtItem(
-                      id: snapshot.data![i].iD!,
-                      size: snapshot.data![i].kichThuoc!,
-                      ten: snapshot.data![i].tenSp!,
-                      hinhAnh: snapshot.data![i].hinhAnh!,
-                      gia: snapshot.data![i].gia!,
-                      moTa: snapshot.data![i].mota!,
-                      thongTin:  snapshot.data![i].thongTin!,
+                      id: snapshot.data?[i].iD,
+                      size: snapshot.data?[i].kichThuoc,
+                      ten: snapshot.data?[i].tenSp,
+                      hinhAnh: snapshot.data?[i].hinhAnh,
+                      gia: snapshot.data?[i].gia,
+                      moTa: snapshot.data?[i].mota,
+                      thongTin:  snapshot.data?[i].thongTin,
                     ));
           }
           return Container();

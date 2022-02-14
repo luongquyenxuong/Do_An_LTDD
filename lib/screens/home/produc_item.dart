@@ -10,24 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class PdtItem extends StatelessWidget {
-  final int id;
-  final String ten;
-  final String hinhAnh;
-  final String size;
-  final int gia;
-  final String moTa;
-  final String thongTin;
+   int? id;
+   String? ten;
+   String? hinhAnh;
+   String? size;
+   int? gia;
+   String? moTa;
+   String? thongTin;
   DBHelper? dbHelper = DBHelper();
   // ignore: prefer_const_constructors_in_immutables
   PdtItem(
       {Key? key,
-      required this.id,
-      required this.ten,
-      required this.hinhAnh,
-      required this.size,
-      required this.gia,
-      required this.moTa,
-      required this.thongTin})
+       this.id,
+       this.ten,
+       this.hinhAnh,
+       this.size,
+       this.gia,
+       this.moTa,
+       this.thongTin})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class PdtItem extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: GridTile(
-          child:Image.asset('assets/img/product/'+hinhAnh),
+          child:Image.asset('assets/img/product/'+hinhAnh!),
           //  CachedNetworkImage(
           //             imageUrl: "http://10.0.2.2:8000/storage/assets/images/product-image/" + widget.sanPham.hinhAnh!,
           //             width: 100,
@@ -66,7 +66,7 @@ class PdtItem extends StatelessWidget {
           //           ),
           footer: GridTileBar(
             title: Text(
-              ten,
+              ten!,
               style: const TextStyle(color: Colors.white),
             ),
             trailing: IconButton(
@@ -75,9 +75,9 @@ class PdtItem extends StatelessWidget {
                   color: Color(0xffed0000),
                 ),
                 onPressed: ()async  {
-                  final check=await dbHelper!.isItem(id);
+                  final check=await dbHelper!.isItem(id!);
                   if(check==true){
-                    dbHelper!.updateItem(id);
+                    dbHelper!.updateItem(id!);
                     cart.addTotalPrice(double.parse(gia.toString()));
                   }
                   else
