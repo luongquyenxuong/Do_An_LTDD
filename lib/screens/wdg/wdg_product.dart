@@ -1,4 +1,4 @@
-import 'package:app_thoi_trang/models/san_pham.dart';
+import 'package:app_thoi_trang/models/product.dart';
 import 'package:app_thoi_trang/screens/home/produc_item.dart';
 import 'package:flutter/material.dart';
 import '../../network/network_request.dart';
@@ -28,7 +28,7 @@ class _AllProductsState extends State<AllProducts> {
   Widget build(BuildContext context) {
     // final product = Provider.of<SanPham>(context);
     // final pdts = product.toJson();
-    return FutureBuilder<List<SanPham>>(
+    return FutureBuilder<List<Product>>(
         future: apiListSanPham(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -40,6 +40,7 @@ class _AllProductsState extends State<AllProducts> {
                     crossAxisCount: 2),
                 itemBuilder: (ctx, i) => PdtItem(
                       id: snapshot.data![i].iD!,
+                      size: snapshot.data![i].kichThuoc!,
                       ten: snapshot.data![i].tenSp!,
                       hinhAnh: snapshot.data![i].hinhAnh!,
                       gia: snapshot.data![i].gia!,
