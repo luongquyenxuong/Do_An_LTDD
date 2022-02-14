@@ -18,4 +18,15 @@ class APIUserController extends Controller{
         $dsSanPham=User::all();
         return response()->json($dsSanPham,200);
     }
+    public function apiLogin(Request $request)
+    {
+        $account = User::where('email', $request->input('email'))->where('password', $request->input('password'))->first();
+        // return response($account, 200);
+
+        if($account) {
+            return response()->json($account,200);
+        } else{
+            return response()->json($account,400);
+        }
+    }
 }

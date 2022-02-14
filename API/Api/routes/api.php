@@ -30,6 +30,8 @@ Route::get('san-pham/{ID}',[APISanPhamController::class,'layChiTiet']);
 Route::get('sp-loai/{id}',[APISanPhamController::class,'layDanhSachLoaiSP']);
 Route::get('dia-chi/{ID}',[APIDiaChiController::class,'layChiTietDiaChi']);
 
+Route::post('login',[APIUserController::class,'apiLogin']);
+
 
 
 
