@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'show_screen.dart';
+
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key}) : super(key: key);
 
@@ -33,7 +35,9 @@ class NavDrawer extends StatelessWidget {
                   height: 30,
                 ),
                 title:const Text('Shop'),
-                onTap: () => {},
+                onTap: () => {
+                  Navigator.pop(context)
+                },
               ),
             ),
             Container(
@@ -45,7 +49,9 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title:const Text('Áo thun'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => {
+                  Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:1,)))
+                  },
               ),
             ),
             Container(
@@ -57,7 +63,7 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title:const Text('Áo khoác'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => { Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:2,)))},
               ),
             ),
             Container(
@@ -69,7 +75,7 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title:const Text('Quần'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => { Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:3,)))},
               ),
             ),
             Container(
@@ -81,7 +87,7 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title:const Text('Giày'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => { Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:4,)))},
               ),
             ),
             Container(
@@ -93,7 +99,7 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title:const Text('Dép'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => { Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:5,)))},
               ),
             ),
             Container(
@@ -105,7 +111,7 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title:const Text('Phụ kiện'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => { Navigator.push(context, MaterialPageRoute(builder:(context)=>ShowScreen(idLoai:6,)))},
               ),
             ),
             const SizedBox(

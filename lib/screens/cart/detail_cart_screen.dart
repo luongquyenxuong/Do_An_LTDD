@@ -1,8 +1,7 @@
-import 'package:app_thoi_trang/models/cart_detail.dart';
-import 'package:app_thoi_trang/screens/wdg/wdg_detail_cart.dart';
+//import 'package:app_thoi_trang/models/cart_detail.dart';
+//import 'package:app_thoi_trang/screens/wdg/wdg_detail_cart.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:provider/provider.dart';
 
 class Detail extends StatelessWidget {
   const Detail({Key? key}) : super(key: key);
@@ -10,8 +9,8 @@ class Detail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    final prcart = Provider.of<CartDetails>(context);
-    final pdcart = prcart.total();
+    //final prcart = Provider.of<CartDetails>(context);
+    //final pdcart = prcart.total();
     return Scaffold(
         backgroundColor: const Color(0xffD9D9D9),
         appBar: AppBar(
@@ -134,7 +133,7 @@ class Detail extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-             const CartItemDetail(),
+            // const CartItemDetail(),
             const SizedBox(height: 10),
           ],
         ),
@@ -159,7 +158,7 @@ class Detail extends StatelessWidget {
                         children: [
                           const Text('Giá tiền:'),
                           const Spacer(),
-                          Text('$pdcart\$')
+                         // Text('$pdcart\$')
                         ],
                       ),
                       Row(
@@ -177,10 +176,10 @@ class Detail extends StatelessWidget {
                                 fontWeight: FontWeight.w800, color: Colors.red),
                           ),
                           const Spacer(),
-                          Text((pdcart + ship1).toString() + '\$',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.red)),
+                          // Text((pdcart + ship1).toString() + '\$',
+                          //     style: const TextStyle(
+                          //         fontWeight: FontWeight.w800,
+                          //         color: Colors.red)),
                         ],
                       ),
                     ],

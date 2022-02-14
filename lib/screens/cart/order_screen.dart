@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_const
 
-import 'package:app_thoi_trang/screens/wdg/wdg_oder.dart';
+//import 'package:app_thoi_trang/screens/wdg/wdg_oder.dart';
 import 'package:flutter/material.dart';
 
 
@@ -48,31 +48,31 @@ class _MyReview extends State<DonHangScreen> {
             //Tất cả
              ListView(
               children:const  [
-                 Wgtdonmua(),
+                // Wgtdonmua(),
               ],
             ),
             //Đã giao
             ListView(
               children: const [
-                Wgtdonmua(),
+               // Wgtdonmua(),
               ],
             ),
             //Đang giao
             ListView(
               children:const  [
-                Wgtdonmua(),
+              //  Wgtdonmua(),
               ],
             ),
             //chờ xác nhận
             ListView(
               children:const  [
-                Wgtdonmua(),
+              //  Wgtdonmua(),
               ],
             ),
             //đã hủy
             ListView(
               children:const  [
-                Wgtdonmua(),
+               // Wgtdonmua(),
               ],
             ),
           ],

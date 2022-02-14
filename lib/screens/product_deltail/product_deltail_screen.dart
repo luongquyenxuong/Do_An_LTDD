@@ -212,7 +212,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
-              Text('(Có 10 đánh giá)'),
+              const Text('(Có 10 đánh giá)'),
               const Spacer(),
               Text(
                 'Xem tất cả',

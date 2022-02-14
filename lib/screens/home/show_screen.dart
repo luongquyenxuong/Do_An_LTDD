@@ -1,7 +1,7 @@
 import 'package:app_thoi_trang/screens/wdg/wdg_product.dart';
 import 'package:app_thoi_trang/screens/wdg/wdg_product_type.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 //import '../wdg/wdg_product.dart';
 
@@ -97,6 +97,7 @@ void initState(){
     setState(() {
     SelectedIndex=controller.index;
   }); 
+  // ignore: avoid_print
   print("Selected Index: " + controller.index.toString());});
    // controller.animateTo(2);
 }
@@ -117,7 +118,7 @@ void initState(){
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80.0),
             child: AppBar(
-              automaticallyImplyLeading: false,
+              //automaticallyImplyLeading: true,
               bottom: TabBar(
                 //indicatorColor: Colors.white,
                 //indicatorColor:const Color(0xff202d59),
@@ -182,8 +183,8 @@ void initState(){
             ),
           ),
           body:TabBarView(
-                  children:[
-                  const AllProductView(),
+                  children:const [
+                   AllProductView(),
                   TypeProductView(id: 1),
                   TypeProductView(id: 2),
                   TypeProductView(id: 3),
