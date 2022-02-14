@@ -1,3 +1,5 @@
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/network/network_request.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +12,24 @@ class TrangDangNhap extends StatefulWidget {
 
 class _TrangDangNhapState extends State<TrangDangNhap> {
   bool _secureText = true;
-
+  User requestModel = User(
+    id: 0,
+    email: "",
+    password: "",
+    hoTen: "",
+    sDT: "",
+    gioiTinh: 0,
+    avatar: "",
+    admin: 2,
+  );
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
+  void initState() {
+    super.initState();
+    requestModel;
+  }
+
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -44,20 +62,20 @@ class _TrangDangNhapState extends State<TrangDangNhap> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 0),
-                child: const TextField(
+                child: TextFormField(
                   keyboardType: TextInputType.text,
-                  style: TextStyle(
-                      color: Colors.black87),
+                  style: const TextStyle(color: Colors.black87),
                   autocorrect: false,
                   enableSuggestions: false,
-                  decoration: InputDecoration(
+                  controller: emailController,
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       contentPadding: EdgeInsets.only(top: 14),
                       prefixIcon: Icon(
                         Icons.person,
                         color: Color(0xff2D3132),
                       ),
-                      hintText: 'Tài khoản',
+                      hintText: 'Email',
                       hintStyle: TextStyle(color: Colors.black38)),
                 ),
               ),
@@ -67,7 +85,12 @@ class _TrangDangNhapState extends State<TrangDangNhap> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 0),
-                child: TextField(
+                child: TextFormField(
+                  controller: passwordController,
+                  onSaved: (input) => requestModel.password = input!,
+                  validator: (input) => (input)!.length < 3
+                      ? "Mật khẩu phải nhiều hơn 3 kí tự "
+                      : null,
                   obscureText: _secureText,
                   keyboardType: TextInputType.text,
                   style: const TextStyle(color: Colors.black87),
@@ -102,8 +125,8 @@ class _TrangDangNhapState extends State<TrangDangNhap> {
                 child: ElevatedButton(
                   child: const Text("Đăng nhập"),
                   onPressed: () {
-                    Navigator.restorablePopAndPushNamed(
-                        context, '/manhinhchinh');
+                    login(
+                        emailController.text, passwordController.text, context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: const Color(0xff3515FA),
