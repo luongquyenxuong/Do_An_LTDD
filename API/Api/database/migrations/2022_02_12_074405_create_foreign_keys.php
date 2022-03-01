@@ -17,6 +17,9 @@ class CreateForeignKeys extends Migration
             $table->foreign('IDLoaiSp')->references('id')->on('loai_san_phams');
             $table->foreign('IDNhaPhanPhoi')->references('id')->on('nha_phan_phois');
         });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->foreign('IDDiaChi')->references('id')->on('dia_chis');
+        // });
         Schema::table('binh_luans', function (Blueprint $table) {
             $table->foreign('IDKhachHang')->references('id')->on('users');
             $table->foreign('IDSanPham')->references('id')->on('san_phams');

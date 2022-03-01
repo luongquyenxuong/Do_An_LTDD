@@ -48,8 +48,16 @@ class CartProvider with ChangeNotifier{
     //print(totalPrice);
     return _totalPrice;
   }
-  
-
+  void resetTotalPrice(){
+   _totalPrice=0;
+    _setPrefItems();
+    notifyListeners();
+  }
+void resetCounter(){
+    _counter=0;
+    _setPrefItems();
+    notifyListeners();
+  }
   void addCounter(){
     _counter++;
     _setPrefItems();

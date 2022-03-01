@@ -30,6 +30,7 @@ class _TrangDangNhapState extends State<TrangDangNhap> {
     requestModel;
   }
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -48,6 +49,11 @@ class _TrangDangNhapState extends State<TrangDangNhap> {
           ),
           backgroundColor: Colors.white,
           elevation: 2,
+            //  leading: IconButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   icon: const Icon(Icons.arrow_back_ios)),
         ),
         body: SingleChildScrollView(
           //mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +81,7 @@ class _TrangDangNhapState extends State<TrangDangNhap> {
                         Icons.person,
                         color: Color(0xff2D3132),
                       ),
-                      hintText: 'Email',
+                      hintText: 'Email/Số điện thoại',
                       hintStyle: TextStyle(color: Colors.black38)),
                 ),
               ),

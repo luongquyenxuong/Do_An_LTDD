@@ -21,7 +21,8 @@ class LoaiSanPhamSeeder extends Seeder
             [
                 'TenLoaiSP'=>'Áo khoác',
                 'HinhAnh'=>'logo_ao_khoac.png',
-                'TrangThai'=>1,
+                'Trang
+                Thai'=>1,
             ],
             [
                 'TenLoaiSP'=>'Quần',

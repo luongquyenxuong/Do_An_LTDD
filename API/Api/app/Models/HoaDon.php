@@ -9,8 +9,6 @@ class HoaDon extends Model
 {
     use HasFactory;
     use SoftDeletes;
-   
-
     protected $guarded=[];
     public function user()
     {
@@ -18,6 +16,6 @@ class HoaDon extends Model
     }
     public function chitiethoadon()
     {
-        return $this->hasMany(ChiTietHoaDon::class);
+        return $this->hasMany(ChiTietHoaDon::class,'IDHoaDon');
     }
-} 
+}

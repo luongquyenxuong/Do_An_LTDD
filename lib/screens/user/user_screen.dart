@@ -1,16 +1,33 @@
 //import 'package:flutter/gestures.dart';
+// ignore_for_file: unnecessary_this, no_logic_in_create_state
+
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/screens/user/change_info_screen.dart';
+import 'package:app_thoi_trang/screens/user/change_pass_screen.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class UserScreen extends StatefulWidget {
-  const UserScreen({Key? key}) : super(key: key);
+  User? user;
+  UserScreen({Key? key, this.user}) : super(key: key);
 
   @override
-  _UserState createState() => _UserState();
+  _UserState createState() => _UserState(this.user);
 }
 
 class _UserState extends State<UserScreen> {
+  User? user;
+  _UserState(this.user);
+  gioitinh() {
+    if (user?.gioiTinh == 1) {
+      return "Nam";
+    }
+    return "Nữ";
+  }
+
   @override
   Widget build(BuildContext context) {
+    var _user = user;
     return Scaffold(
       backgroundColor: const Color(0xffD9D9D9),
       appBar: AppBar(
@@ -22,7 +39,7 @@ class _UserState extends State<UserScreen> {
         ),
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, _user);
             },
             icon: const Icon(Icons.arrow_back_ios)),
       ),
@@ -37,13 +54,13 @@ class _UserState extends State<UserScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children:const [
-                        // Image.asset(
-                        //   'assets/img/icon/HinhNenCam.png',
-                        //   width: 500,
-                        //   height: 178,
-                        //   fit: BoxFit.cover,
-                        // ),
+                      children: [
+                        Image.asset(
+                          'assets/img/icon/${user?.avatar ?? "3177440.png"}',
+                          width: 500,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
                       ],
                     ),
                   ),
@@ -66,39 +83,37 @@ class _UserState extends State<UserScreen> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Material(
-                    color: Colors.white,
-                    shape: const CircleBorder(),
-                    child: InkWell(
-                      splashColor: Colors.white,
-                      onTap: () {},
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Ink.image(
-                            image: const AssetImage(
-                              'assets/img/icon/1144760.png',
-                            ),
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.center,
+                //   child: Material(
+                //     color: Colors.white,
+                //     shape: const CircleBorder(),
+                //     child: InkWell(
+                //       splashColor: Colors.white,
+                //       onTap: () {},
+                //       child: Column(
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: [
+                //           Ink.image(
+                //             image:  AssetImage(
+                //               'assets/img/icon/${user.avatar}',
+                //             ),
+                //             height: 50,
+                //             width: 50,
+                //             fit: BoxFit.cover,
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
-         
+
           Container(
             height: 30,
-            padding: const EdgeInsets.only(
-              left: 30,
-            ),
+            padding: const EdgeInsets.only(right: 20, left: 20),
             decoration: const BoxDecoration(
               color: Colors.white,
               border: Border(
@@ -110,52 +125,53 @@ class _UserState extends State<UserScreen> {
               ),
             ),
             child: Row(
-              
-              children: const [
-                Text(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
                   'Tên',
                 ),
-                SizedBox(
-                  width: 280,
-                ),
+                //  const SizedBox(
+                //     width: 280,
+                //   ),
                 Text(
-                  'Kiệt',
+                  user?.hoTen ?? "",
                 ),
               ],
             ),
           ),
-          Container(
-            height: 30,
-            padding: const EdgeInsets.only(
-              left: 30,
-            ),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                  ),
-            ),
-            child: Row(
-             
-              children: const [
-                Text(
-                  'Tên tài khoản',
-                ),
-                SizedBox(
-                  width: 213,
-                ),
-                Text(
-                  'Kiet84',
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   height: 30,
+          //   padding: const EdgeInsets.only(
+          //     left: 30,
+          //   ),
+          //   decoration: const BoxDecoration(
+          //     color: Colors.white,
+          //     border: Border(
+          //         ),
+          //   ),
+          //   child: Row(
+
+          //     children: const [
+          //       Text(
+          //         'Tên tài khoản',
+          //       ),
+          //       SizedBox(
+          //         width: 213,
+          //       ),
+          //       Text(
+          //         user.,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           const SizedBox(
             height: 10,
           ),
           Container(
             height: 30,
             padding: const EdgeInsets.only(
-              left: 30,
+              left: 20,
+              right: 20,
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -173,16 +189,14 @@ class _UserState extends State<UserScreen> {
               ),
             ),
             child: Row(
-              //mainAxisAlignment: MainAxisAlignment.,
-              children: const [
-                Text(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
                   'Giới tính',
                 ),
-                SizedBox(
-                  width: 250,
-                ),
                 Text(
-                  'Nam',
+                  gioitinh(),
+                  //'Nam',
                 ),
               ],
             ),
@@ -190,7 +204,8 @@ class _UserState extends State<UserScreen> {
           Container(
             height: 30,
             padding: const EdgeInsets.only(
-              left: 30,
+              left: 20,
+              right: 20,
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -208,16 +223,13 @@ class _UserState extends State<UserScreen> {
               ),
             ),
             child: Row(
-              //mainAxisAlignment: MainAxisAlignment.,
-              children: const [
-                Text(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
                   'Ngày sinh',
                 ),
-                SizedBox(
-                  width: 220,
-                ),
                 Text(
-                  '08/04/2001',
+                  user?.ngaySinh ?? "Trống",
                 ),
               ],
             ),
@@ -225,7 +237,8 @@ class _UserState extends State<UserScreen> {
           Container(
             height: 30,
             padding: const EdgeInsets.only(
-              left: 30,
+              left: 20,
+              right: 20,
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -243,16 +256,13 @@ class _UserState extends State<UserScreen> {
               ),
             ),
             child: Row(
-              //mainAxisAlignment: MainAxisAlignment.,
-              children: const [
-                Text(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
                   'Điện thoại',
                 ),
-                SizedBox(
-                  width: 220,
-                ),
                 Text(
-                  '******382',
+                  user?.sDT ?? "",
                 ),
               ],
             ),
@@ -260,7 +270,8 @@ class _UserState extends State<UserScreen> {
           Container(
             height: 30,
             padding: const EdgeInsets.only(
-              left: 30,
+              left: 20,
+              right: 20,
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -278,19 +289,16 @@ class _UserState extends State<UserScreen> {
               ),
             ),
             child: Row(
-              //mainAxisAlignment: MainAxisAlignment.,
-              children: const [
-                Text(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
                   'Email',
                 ),
-                SizedBox(
-                  width: 220,
-                ),
                 Text(
-                  'Kiet84@gmail.com',
-                  style: TextStyle(
+                  user?.email ?? "",
+                  style: const TextStyle(
                     color: Color(0xffFA1515),
-                    decoration: TextDecoration.underline,
+                    // decoration: TextDecoration.underline,
                   ),
                 ),
               ],
@@ -300,13 +308,23 @@ class _UserState extends State<UserScreen> {
             height: 20,
           ),
           InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/thaydoithongtin');
+            onTap: () async {
+              final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => changeinfoscreen(
+                            user: user!,
+                          )));
+              setState(() {
+                //idDC=result;
+                user = result;
+              });
             },
             child: Container(
               height: 30,
               padding: const EdgeInsets.only(
-                left: 30,
+                left: 20,
+                right: 10,
               ),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -325,7 +343,7 @@ class _UserState extends State<UserScreen> {
               ),
               child: Row(
                 //mainAxisAlignment: MainAxisAlignment.center,
-                children:const [
+                children: const [
                   Text(
                     'Thay đổi thông tin cá nhân',
                     style: TextStyle(
@@ -345,15 +363,27 @@ class _UserState extends State<UserScreen> {
             height: 20,
           ),
           InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/thaydoimatkhau');
+            onTap: () async {
+              final result= await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => changepassscreen(
+                            password: user!.password!,
+                            id: user!.id!,
+                            user: user!,
+                          )));
+              setState(() {
+                //idDC=result;
+                user = result;
+              });
             },
             child: Container(
               height: 30,
-              padding:const EdgeInsets.only(
-                left: 30,
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 10,
               ),
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 border: Border(
                   // top:BorderSide(
@@ -370,7 +400,7 @@ class _UserState extends State<UserScreen> {
               ),
               child: Row(
                 //mainAxisAlignment: MainAxisAlignment.center,
-                children:const [
+                children: const [
                   Text(
                     'Thay đổi mật khẩu',
                     style: TextStyle(

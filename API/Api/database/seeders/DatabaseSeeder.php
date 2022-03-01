@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        $this->call(BannerSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(DiaChiSeeder::class);
         $this->call(NhaPhanPhoiSeeder::class);

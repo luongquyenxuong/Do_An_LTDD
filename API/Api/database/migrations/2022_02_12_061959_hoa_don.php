@@ -16,7 +16,7 @@ class HoaDon extends Migration
         Schema::create('hoa_dons', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('IDKhachHang');
-            $table->integer('ThanhTien');
+            $table->integer('ThanhTien')->nullable();
             $table->integer('TrangThai');
             $table->timestamps();
             $table->softDeletes();

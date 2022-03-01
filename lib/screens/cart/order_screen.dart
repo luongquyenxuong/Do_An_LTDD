@@ -1,17 +1,27 @@
 // ignore_for_file: unnecessary_const
 
 //import 'package:app_thoi_trang/screens/wdg/wdg_oder.dart';
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/screens/wdg/wdg_oder.dart';
 import 'package:flutter/material.dart';
 
 
+// ignore: must_be_immutable
 class DonHangScreen extends StatefulWidget {
-  const DonHangScreen({Key? key}) : super(key: key);
+  User user;
+  int trangthai;
+  DonHangScreen({Key? key,required this.user,required this.trangthai}) : super(key: key);
 
   @override
-  _MyReview createState() => _MyReview();
+  // ignore: no_logic_in_create_state
+  _MyReview createState() => _MyReview(user,trangthai);
 }
 
 class _MyReview extends State<DonHangScreen> {
+  User user;
+  int trangthai;
+ 
+_MyReview(this.user,this.trangthai);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -30,14 +40,14 @@ class _MyReview extends State<DonHangScreen> {
               ),
             ),
             bottom: createTabBar(),
-            leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                )),
+            // leading: IconButton(
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     },
+            //     icon: const Icon(
+            //       Icons.arrow_back_ios,
+            //       color: Colors.white,
+            //     )),
            
         
             elevation: 2,
@@ -47,32 +57,32 @@ class _MyReview extends State<DonHangScreen> {
           children: <Widget>[
             //Tất cả
              ListView(
-              children:const  [
-                // Wgtdonmua(),
+              children:  [
+                 Wgtdonmua(user: user,trangThai: trangthai,),
               ],
             ),
             //Đã giao
             ListView(
-              children: const [
-               // Wgtdonmua(),
+              children:  [
+                Wgtdonmua(user: user,trangThai: 2,),
               ],
             ),
             //Đang giao
             ListView(
-              children:const  [
-              //  Wgtdonmua(),
+              children:  [
+                Wgtdonmua(user: user,trangThai: 1,),
               ],
             ),
             //chờ xác nhận
             ListView(
-              children:const  [
-              //  Wgtdonmua(),
+              children:  [
+                Wgtdonmua(user: user,trangThai: 0,),
               ],
             ),
             //đã hủy
             ListView(
-              children:const  [
-               // Wgtdonmua(),
+              children:  [
+                Wgtdonmua(user: user,trangThai: 3,),
               ],
             ),
           ],
@@ -85,7 +95,6 @@ class _MyReview extends State<DonHangScreen> {
     return TabBar(
       //indicatorColor: Colors.white,
       //indicatorColor:const Color(0xff202d59),
-
       tabs: [
         Row(children: const [
           Icon(

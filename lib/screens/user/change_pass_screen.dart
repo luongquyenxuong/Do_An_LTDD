@@ -2,22 +2,38 @@
 
 //import 'dart:html';
 
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/network/network_request.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
 class changepassscreen extends StatefulWidget {
-  const changepassscreen({Key? key}) : super(key: key);
+   String password;
+   int id;
+   User user;
+   changepassscreen({Key? key,required this.password,required this.id,required this.user}) : super(key: key);
 
 
 
   @override
-  _MyChangePass createState() => _MyChangePass();
+  // ignore: no_logic_in_create_state
+  _MyChangePass createState() => _MyChangePass(password,id,user);
 }
 
 class _MyChangePass extends State<changepassscreen> {
   bool _secureText = true;
-  
+   User user;
+   int id;
+   String password;
+  _MyChangePass(this.password,this.id,this.user);
   String? value;
+
+
+  late String? pass=password;
+  var passController = TextEditingController();
+  var passNewController = TextEditingController();
+  var passconfirmController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -37,12 +53,25 @@ class _MyChangePass extends State<changepassscreen> {
             ),
             leading:  IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context,user);
               },
               icon: const Icon(Icons.arrow_back_ios)),
               actions: [
                  TextButton(
-              onPressed: () {},
+              onPressed: ()async {
+                if(pass==passController.text&&passNewController.text==passconfirmController.text){
+                   final result= await updatePassword(id,passNewController.text,context);
+                   setState(() {
+                     user=result;
+                   });
+                }else if(pass!=passController.text){
+                   ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Mật khẩu sai')));
+                }else if(passNewController.text!=passconfirmController.text) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Mật khẩu xác nhận không đúng')));
+                }
+              },
               child:const Text(
                 'Lưu',
                 style: TextStyle(color: Color(0xff0500FF), fontSize: 17),
@@ -63,9 +92,9 @@ class _MyChangePass extends State<changepassscreen> {
                    color: Colors.white,
                   child: Padding(
                     padding:const  EdgeInsets.symmetric(horizontal: 10,),
-                    child: TextField(
+                    child: TextFormField(
                       keyboardType: TextInputType.text,
-                    
+                     controller: passController,
                       style: const TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -98,9 +127,9 @@ class _MyChangePass extends State<changepassscreen> {
                    color: Colors.white,
                   child: Padding(
                     padding:const  EdgeInsets.symmetric(horizontal: 10,),
-                    child: TextField(
+                    child: TextFormField(
                       keyboardType: TextInputType.number,
-                    
+                     controller: passNewController,
                       style: const TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -132,9 +161,9 @@ class _MyChangePass extends State<changepassscreen> {
                    color: Colors.white,
                   child: Padding(
                     padding:const  EdgeInsets.symmetric(horizontal: 10,),
-                    child: TextField(
+                    child: TextFormField(
                       keyboardType: TextInputType.text,
-                    
+                    controller: passconfirmController,
                       style: const TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
                           border: InputBorder.none,

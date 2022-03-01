@@ -107,7 +107,7 @@ class _ItemCartState extends State<ItemsCart> {
                       onPressed: () {
                         if (quantity > 1) {
                           int soluong = quantity;
-                          int gia = initialprice;
+                         // int gia = initialprice;
                           quantity--;
                           int? newGia = soluong * initialprice;
                           dbHelper!
@@ -120,7 +120,7 @@ class _ItemCartState extends State<ItemsCart> {
                                   soluong: soluong,
                                   size: size))
                               .then((value) {
-                              tien()=>newGia;
+                            //  tien()=>newGia;
                             cart.removeTotalPrice(
                                 double.parse(initialprice.toString()));
                           });
@@ -150,7 +150,7 @@ class _ItemCartState extends State<ItemsCart> {
                       padding: const EdgeInsets.only(top: 1),
                       onPressed: () {
                         int soluong = quantity;
-                        int gia = initialprice;
+                        //int gia = initialprice;
                         quantity++;
                         int? newGia = soluong * initialprice;
                         
@@ -164,7 +164,7 @@ class _ItemCartState extends State<ItemsCart> {
                                 soluong: soluong,
                                 size: size))
                             .then((value) {
-                          tien()=>newGia;
+                         // tien()=>newGia;
                           //soluong=0;
                           newGia=0;
                           cart.addTotalPrice(double.parse(initialprice.toString()));

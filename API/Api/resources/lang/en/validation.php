@@ -142,8 +142,23 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'custom' => [
+            'email' => [
+                'required' => 'Vui lòng nhập email.',
+            ],
+            'password' => [
+                'required' => 'Vui lòng nhập password.',
+            ],
+            'image' => [
+                'required' => 'Vui lòng chọn hình ảnh.',
+                'mimetypes' => 'Hình ảnh phải có định dạng: :values.'
+            ],
+            'birthday' => [
+                'required'  => 'Vui lòng chọn ngày.',
+            ],
+            'product_id' => [
+                'required' => 'Vui lòng chọn sản phẩm'
+            ],
         ],
     ],
 

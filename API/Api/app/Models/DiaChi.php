@@ -10,11 +10,15 @@ class DiaChi extends Model
 {
     use HasFactory;
    // use SoftDeletes;
-   
+
 
     protected $guarded=[];
     public function user()
     {
         return $this->belongsTo(User::class,'IDKhachHang');
     }
-} 
+    public function diachi()
+    {
+        return $this->hasMany(ChiTietHoaDon::class,'IDDiaChi');
+    }
+}
