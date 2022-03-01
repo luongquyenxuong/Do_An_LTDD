@@ -1,71 +1,80 @@
-// ignore_for_file: unnecessary_this
-
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/network/network_request.dart';
+import 'package:app_thoi_trang/screens/cart/detail_cart_screen.dart';
+//import 'package:app_thoi_trang/screens/cart/order_screen.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Donmuas extends StatefulWidget {
-  final DateTime ngaytao;
-  final String tensanpham;
-  final int trangthai;
-  final int soluong;
-  final String hinhanh;
-  final int gia;
-  const Donmuas(
-      {Key? key,
-      required this.ngaytao,
-      required this.tensanpham,
-      required this.trangthai,
-      required this.soluong,
-      required this.hinhanh,
-      required this.gia})
-      : super(key: key);
+  String ngayTao;
+  String thanhTien;
+  int trangThai;
+  int id;
+  User user;
+  int? iddiachi;
+  Donmuas({
+    Key? key,
+    required this.ngayTao,
+    required this.id,
+    required this.thanhTien,
+    required this.trangThai,
+    this.iddiachi,
+    required this.user,
+  }) : super(key: key);
   @override
   _DonmuaState createState() =>
       // ignore: no_logic_in_create_state
-      _DonmuaState(this.ngaytao, this.tensanpham, this.trangthai, this.soluong,
-          this.hinhanh, this.gia);
+      _DonmuaState(id, ngayTao, thanhTien, trangThai, iddiachi, user);
 }
 
 class _DonmuaState extends State<Donmuas> {
-  final DateTime ngaytao;
-  final String tensanpham;
-  final int trangthai;
-  final int soluong;
-  final String hinhanh;
-  final int gia;
-  _DonmuaState(this.ngaytao, this.tensanpham, this.trangthai, this.soluong,
-      this.hinhanh, this.gia);
+  User user;
+  int id;
+  String ngayTao;
+  int trangThai;
+  String thanhTien;
+ 
+onGoBack(dynamic value) {
+    setState(() {});
+  }
+  int? iddiachi;
+  _DonmuaState(this.id, this.ngayTao, this.thanhTien, this.trangThai,
+      this.iddiachi, this.user);
 
   settrangthai() {
-    if (trangthai == 1) {
-      return 'Thành công';
-    } else if (trangthai == 2) {
-      return 'Đang giao';
-    } else if (trangthai == 3) {
+    if (trangThai == 0) {
       return 'Chờ xác nhận';
-    } else if (trangthai == 4) {
+    }
+    if (trangThai == 1) {
+      return 'Đang giao';
+    }
+    if (trangThai == 2) {
+      return 'Đã giao';
+    }
+    if (trangThai == 3) {
       return 'Đã hủy';
     }
+    //return "";
   }
 
- 
-  setColorTrangThai()  {
-    if (trangthai == 1) {
+  setColorTrangThai() {
+    if (trangThai == 2) {
       return Colors.lightBlueAccent;
-    } else if (trangthai == 2) {
+    } else if (trangThai == 1) {
       return Colors.green;
-    } else if (trangthai == 3) {
+    } else if (trangThai == 0) {
       return Colors.lightBlue;
-    } else if (trangthai == 4) {
+    } else if (trangThai == 3) {
       return Colors.red;
     }
   }
 
-  int tinhtong() {
-    return soluong * gia;
-  }
+  // int tinhtong() {
+  //   return soluong * gia;
+  // }
 
   hiddenrate() {
-    if (trangthai == 1) {
+    if (trangThai == 2) {
       return true;
     } else {
       return false;
@@ -73,7 +82,7 @@ class _DonmuaState extends State<Donmuas> {
   }
 
   hiddenbuy() {
-    if (trangthai == 1 || trangthai == 2 || trangthai == 4) {
+    if (trangThai == 2 || trangThai == 1 || trangThai == 3) {
       return true;
     } else {
       return false;
@@ -81,7 +90,7 @@ class _DonmuaState extends State<Donmuas> {
   }
 
   hiddenwait() {
-    if (trangthai == 3) {
+    if (trangThai == 0) {
       return true;
     } else {
       return false;
@@ -92,7 +101,15 @@ class _DonmuaState extends State<Donmuas> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, "/chitietdonhang");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Detail(
+                      id: id,
+                      trangthai: trangThai,
+                      thanhtien: int.parse(thanhTien),
+                      //iddiachi:iddiachi!,
+                    )));
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -107,11 +124,11 @@ class _DonmuaState extends State<Donmuas> {
         padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Row(
-              children: <Widget>[
+              children: [
                 Text(
-                  ngaytao.toString(),
+                  ngayTao,
                   style: const TextStyle(color: Colors.black, fontSize: 14),
                 ),
                 const Spacer(),
@@ -128,43 +145,6 @@ class _DonmuaState extends State<Donmuas> {
                   bottom: BorderSide(width: 1.0, color: Colors.grey),
                 ),
               ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    child: Image.asset(
-                      hinhanh,
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    width: 220,
-                    height: 100,
-                    child: Stack(
-                      children: <Widget>[
-                        Text(
-                          tensanpham,
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            left: 0,
-                            child: Text('x' + soluong.toString())),
-                        Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Text(
-                              gia.toString(),
-                              style: const TextStyle(color: Colors.blue),
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
             Container(
               decoration: const BoxDecoration(
@@ -174,10 +154,10 @@ class _DonmuaState extends State<Donmuas> {
               ),
               padding: const EdgeInsets.all(10),
               child: Row(
-                children: <Widget>[
+                children: [
                   Text(
-                    soluong.toString() + ' sản phẩm',
-                    style:const TextStyle(color: Colors.blue),
+                    'ID hóa đơn: $id ',
+                    style: const TextStyle(color: Colors.blue),
                   ),
                   const Spacer(),
                   Container(
@@ -188,8 +168,8 @@ class _DonmuaState extends State<Donmuas> {
                     ),
                   ),
                   Text(
-                    tinhtong().toString(),
-                    style:const TextStyle(color: Colors.red),
+                    thanhTien,
+                    style: const TextStyle(color: Colors.red),
                   )
                 ],
               ),
@@ -198,14 +178,14 @@ class _DonmuaState extends State<Donmuas> {
               padding: const EdgeInsets.only(top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
+                children: [
                   Container(
                       margin: const EdgeInsets.only(right: 10),
                       child: Visibility(
-                        visible: hiddenrate(),
+                        visible: false,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
+                          children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -233,7 +213,31 @@ class _DonmuaState extends State<Donmuas> {
                           onPrimary: Colors.white,
                           fixedSize: const Size(100, 35),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                           showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text("Thông báo"),
+                                    content: const Text("Bạn có muốn đặt lại đơn hàng ?"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text("Xác nhận"),
+                                        onPressed: ()async{
+                                          final result= await updateHD(id,0,context);
+                                        setState(() {
+                                          trangThai=result!.trangThai!;
+                                        });
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text("Hủy"),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ));
+                        },
                         child: const Text(
                           'Mua lại',
                           style: TextStyle(
@@ -252,9 +256,33 @@ class _DonmuaState extends State<Donmuas> {
                           fixedSize: const Size(150, 35),
                           disabledMouseCursor: SystemMouseCursors.basic,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text("Thông báo"),
+                                    content: const Text("Bạn có muốn hủy ?"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text("Xác nhận"),
+                                        onPressed: ()async{
+                                          final result= await updateHD(id,3,context);
+                                        setState(() {
+                                          trangThai=result!.trangThai!;
+                                        });
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text("Hủy"),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ));
+                        },
                         child: const Text(
-                          'Đang xử lí...',
+                          'Hủy',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,

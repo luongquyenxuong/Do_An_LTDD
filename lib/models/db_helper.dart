@@ -76,4 +76,22 @@ class DBHelper {
       WHERE productId=?
     ''', [newTotalPrice, quantity, id]);
   }
+  Future<int> updateQuantityItem(int id,int soluong)async{
+   var dbClient = await db;
+    final raw = await dbClient.query('cart',where: 'productId=?', whereArgs: [id]);
+    final cart = raw.map((e) => Cart.fromMap(e)).toList();
+    int quantity = cart[0].soluong!;
+    quantity=quantity+soluong;
+    int newTotalPrice =  cart[0].giabandau!* quantity;
+    return await dbClient.rawUpdate('''
+      UPDATE cart
+      SET totalPrice=?,quantity=?
+      WHERE productId=?
+    ''', [newTotalPrice, quantity, id]);
+}
+Future<bool> deleteAllCart()async{
+ var dbClient = await db;
+ final result= await dbClient.delete('cart');
+ return result!=0;
+}
 }

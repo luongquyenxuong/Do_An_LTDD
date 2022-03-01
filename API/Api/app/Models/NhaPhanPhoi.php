@@ -10,8 +10,8 @@ class NhaPhanPhoi extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    //protected $table='san_phams';
+   
 
     protected $guarded=[];
-   
-} 
+
+}

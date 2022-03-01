@@ -1,44 +1,65 @@
-//import 'package:app_thoi_trang/models/san_pham.dart';
-//import 'package:app_thoi_trang/models/san_pham.dart';
-//import 'package:app_thoi_trang/network/network_request.dart';
-//import 'package:app_thoi_trang/screens/wdg/wdg_product_deltail.dart';
-//import 'package:flutter/gestures.dart';
 // ignore_for_file: unnecessary_this
 
+import 'package:app_thoi_trang/models/cart.dart';
+import 'package:app_thoi_trang/models/db_helper.dart';
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/screens/cart/cart_screen.dart';
+import 'package:app_thoi_trang/screens/wdg/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ProductDetailScreen extends StatefulWidget {
-   String? ten;
-   int? gia;
-   String? hinhAnh;
-   String? moTa;
-   String? thongTin;
-
-   ProductDetailScreen(
+  int? id;
+  String? ten;
+  String? size;
+  int? gia;
+  String? hinhAnh;
+  String? moTa;
+  String? thongTin;
+  final User user;
+  int? dc;
+  ProductDetailScreen(
       {Key? key,
-       this.ten,
-       this.gia,
-       this.hinhAnh,
-       this.moTa,
-       this.thongTin})
+      required this.user,
+      this.dc,
+      this.id,
+      this.ten,
+      this.gia,
+      this.size,
+      this.hinhAnh,
+      this.moTa,
+      this.thongTin})
       : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
   _ProductDetailScreenState createState() => _ProductDetailScreenState(
-      this.ten, this.gia, this.hinhAnh, this.moTa, this.thongTin);
+        this.user,
+        this.size,
+        this.id,
+        this.ten,
+        this.gia,
+        this.hinhAnh,
+        this.moTa,
+        this.thongTin, this.dc,
+      );
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int soluong = 1;
-  final String? ten;
-  final int? gia;
-  final String? hinhAnh;
-  final String? moTa;
-  final String? thongTin;
-
-  _ProductDetailScreenState(
-      this.ten, this.gia, this.hinhAnh, this.moTa, this.thongTin);
+  int? id;
+  final User user;
+  String? size;
+  String? ten;
+  int? gia;
+  int? dc;
+  String? hinhAnh;
+  String? moTa;
+  String? thongTin;
+  DBHelper? dbHelper = DBHelper();
+  _ProductDetailScreenState(this.user, this.size, this.id, this.ten, this.gia,
+      this.hinhAnh, this.moTa, this.thongTin,this.dc);
   void add() {
     setState(() {
       soluong++;
@@ -55,6 +76,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Thông tin sản phẩm'),
@@ -184,7 +206,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              moTa!,
+              moTa ?? "",
               style: const TextStyle(),
             ),
           ),
@@ -198,31 +220,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              thongTin!,
+              thongTin ?? "",
               style: const TextStyle(),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: Row(children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Đánh giá sản phẩm',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-              ),
-              const Text('(Có 10 đánh giá)'),
-              const Spacer(),
-              Text(
-                'Xem tất cả',
-                style: TextStyle(
-                    color: Colors.orange[800], fontWeight: FontWeight.w700),
-              ),
-              Icon(Icons.keyboard_arrow_right,
-                  size: 30, color: Colors.orange[800]),
-            ]),
-          ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: Row(children: [
+          //     const Padding(
+          //       padding: EdgeInsets.all(8.0),
+          //       child: Text(
+          //         'Đánh giá sản phẩm',
+          //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          //       ),
+          //     ),
+          //     const Text('(Có 10 đánh giá)'),
+          //     const Spacer(),
+          //     Text(
+          //       'Xem tất cả',
+          //       style: TextStyle(
+          //           color: Colors.orange[800], fontWeight: FontWeight.w700),
+          //     ),
+          //     Icon(Icons.keyboard_arrow_right,
+          //         size: 30, color: Colors.orange[800]),
+          //   ]),
+          // ),
           const SizedBox(
             height: 30,
           )
@@ -233,7 +255,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final sl = soluong;
+                    final total = sl * gia!;
+                    final check = await dbHelper!.isItem(id!);
+                    if (check == true) {
+                      dbHelper!.updateQuantityItem(id!,sl);
+                      cart.addTotalPrice(double.parse(total.toString()));
+                    } else {
+                      dbHelper!
+                        .insert(Cart(
+                        idSp: id,
+                        tenSp: ten,
+                        giabandau: gia,
+                        gia: total,
+                        hinhAnh: hinhAnh,
+                        soluong: sl,
+                        size: size,
+                      ))
+                          .then((value) {
+                        //  print('da them ');
+                        cart.addTotalPrice(double.parse(total.toString()));
+                        cart.addCounter();
+                      }).onError((error, stackTrace) {
+                        // print(error.toString());
+                      });
+                    }
+                  },
                   child: Container(
                     width: 200,
                     color: Colors.blue,
@@ -247,12 +295,41 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    int? sl = soluong;
+                    int? total = sl * gia!;
+                    final check = await dbHelper!.isItem(id!);
+                    if (check == true) {
+                      dbHelper!.updateQuantityItem(id!,sl);
+                      cart.addTotalPrice(double.parse(total.toString()));
+                    } else {
+                      dbHelper!
+                        .insert(Cart(
+                        idSp: id!,
+                        tenSp: ten!,
+                        giabandau: gia!,
+                        gia: total,
+                        hinhAnh: hinhAnh!,
+                        soluong: sl,
+                        size: size!,
+                      ))
+                          .then((value) {
+                        // print('da them ');
+                        cart.addTotalPrice(double.parse(total.toString()));
+                        cart.addCounter();
+                      }).onError((error, stackTrace) {
+                        //  print(error.toString());
+                      });
+                    }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CartScreen(user: user,dc: dc,)));
+                  },
                   child: Container(
-                    
                       width: 211.36,
                       color: Colors.red,
-                      child:const Center(child: Text('Mua ngay'))),
+                      child: const Center(child: Text('Mua ngay'))),
                 ),
               ],
             ),

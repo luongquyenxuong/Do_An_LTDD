@@ -18,11 +18,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('HoTen');
+           //$table->unsignedBigInteger('IDDiaChi');
             $table->integer('GioiTinh');
-            $table->date('NgaySinh');
+            $table->date('NgaySinh')->nullable();
             $table->string('SDT');
             $table->string('Avatar')->nullable();
-            $table->integer('Admin');
+            $table->integer('Admin')->default('2');
             $table->timestamps();
             $table->softDeletes();
 
