@@ -10,7 +10,6 @@ import '../models/address_user.dart';
 import '../models/banner.dart';
 import '../models/loai_san_pham.dart';
 import '../models/product.dart';
-
 String uriBase = "http://localhost:8000/api/";
 
 Future<List<Product>> apiListSanPham() async {
@@ -160,7 +159,8 @@ Future<User> login(String email, String password, context) async {
           context: context,
           builder: (context) => AlertDialog(
                 title: const Text("Đăng nhập thất bai"),
-                content: const Text("Sai email hoặc mật khẩu"),
+                content:
+                    const Text("Sai email hoặc mật khẩu"),
                 actions: <Widget>[
                   TextButton(
                     child: const Text("Ok"),

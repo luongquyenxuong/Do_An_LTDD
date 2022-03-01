@@ -43,6 +43,7 @@ class _AllProductsState extends State<AllProducts> {
                       gia: snapshot.data?[i].gia,
                       moTa: snapshot.data?[i].mota,
                       thongTin: snapshot.data?[i].thongTin,
+
                     ));
           }
           return Container();
