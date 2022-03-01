@@ -2,6 +2,7 @@
 
 import 'package:app_thoi_trang/models/cart.dart';
 import 'package:app_thoi_trang/models/db_helper.dart';
+import 'package:app_thoi_trang/screens/wdg/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,6 +67,7 @@ class _ItemCartState extends State<ItemsCart> {
 
   @override
   Widget build(BuildContext context) {
+     final cart = Provider.of<CartProvider>(context);
     return Container(
       //width: 300,
       height: 80,
@@ -102,7 +104,30 @@ class _ItemCartState extends State<ItemsCart> {
                     child: IconButton(
                       //alignment: Alignment.topCenter,
                       padding: const EdgeInsets.only(top: 1),
-                      onPressed: () {},
+
+                      onPressed: () {
+                        if (quantity > 1) {
+                          int soluong = quantity;
+                         // int gia = initialprice;
+                          quantity--;
+                          int? newGia = soluong * initialprice;
+                          dbHelper!
+                              .updateQuantity(Cart(
+                                  idSp: id,
+                                  tenSp: name,
+                                  gia: newGia,
+                                  giabandau: initialprice,
+                                  hinhAnh: imageUrl,
+                                  soluong: soluong,
+                                  size: size))
+                              .then((value) {
+                            //  tien()=>newGia;
+                            cart.removeTotalPrice(
+                                double.parse(initialprice.toString()));
+                          });
+                        }
+                      },
+
                       icon: const Icon(
                         Icons.remove,
                         color: Colors.white,
@@ -125,7 +150,30 @@ class _ItemCartState extends State<ItemsCart> {
                         borderRadius: BorderRadius.circular(12)),
                     child: IconButton(
                       padding: const EdgeInsets.only(top: 1),
-                      onPressed: () {},
+
+                      onPressed: () {
+                        int soluong = quantity;
+                        //int gia = initialprice;
+                        quantity++;
+                        int? newGia = soluong * initialprice;
+                        
+                        dbHelper!
+                            .updateQuantity(Cart(
+                                idSp: id,
+                                tenSp: name,
+                                gia: newGia,
+                                giabandau: initialprice,
+                                hinhAnh: imageUrl,
+                                soluong: soluong,
+                                size: size))
+                            .then((value) {
+                         // tien()=>newGia;
+                          //soluong=0;
+                          newGia=0;
+                          cart.addTotalPrice(double.parse(initialprice.toString()));
+                        });
+                      },
+
                       icon: const Icon(
                         Icons.add,
                         color: Colors.white,

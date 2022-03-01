@@ -8,16 +8,20 @@ import 'show_screen.dart';
 // ignore: must_be_immutable
 class SearchScreen extends StatefulWidget {
   final User user;
-  SearchScreen({Key? key, required this.user}) : super(key: key);
+
+  int? dc;
+  SearchScreen({Key? key, required this.user, this.dc}) : super(key: key);
 
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  _SeachState createState() => _SeachState(user);
+  _SeachState createState() => _SeachState(user, dc);
 }
 
 class _SeachState extends State<SearchScreen> {
+  int? dc;
   final User user;
-  _SeachState(this.user);
+  _SeachState(this.user, this.dc);
+
   var searchController = TextEditingController();
   List<Widget> listTab = [
     Row(children: const [

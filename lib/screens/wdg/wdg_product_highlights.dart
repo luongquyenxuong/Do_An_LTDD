@@ -1,3 +1,4 @@
+
 import 'package:app_thoi_trang/models/product.dart';
 import 'package:app_thoi_trang/models/user.dart';
 import 'package:app_thoi_trang/screens/home/produc_item.dart';
@@ -8,17 +9,18 @@ import '../../network/network_request.dart';
 // ignore: must_be_immutable
 class AllProductsHighlight extends StatefulWidget {
   final User user;
-   AllProductsHighlight({Key? key,required this.user}) : super(key: key);
+  int? dc;
+   AllProductsHighlight({Key? key,required this.user,this.dc}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  State<AllProductsHighlight> createState() => _AllProductsHighlightState(user);
+  State<AllProductsHighlight> createState() => _AllProductsHighlightState(user,dc);
 }
 
 class _AllProductsHighlightState extends State<AllProductsHighlight> {
     final User user;
     int? dc;
-_AllProductsHighlightState(this.user);
+_AllProductsHighlightState(this.user,this.dc);
   // @override
   // void initState(){
   //   super.initState();
@@ -45,6 +47,7 @@ _AllProductsHighlightState(this.user);
                     crossAxisCount: 2),
                 itemBuilder: (ctx, i) => PdtItem(
                       user: user,
+                      dc: dc,
                       id: snapshot.data?[i].iD,
                       size: snapshot.data?[i].kichThuoc,
                       ten: snapshot.data?[i].tenSp,
@@ -58,3 +61,4 @@ _AllProductsHighlightState(this.user);
         });
   }
 }
+

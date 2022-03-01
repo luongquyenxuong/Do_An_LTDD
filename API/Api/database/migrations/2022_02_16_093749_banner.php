@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class HoaDon extends Migration
+class Banner extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class HoaDon extends Migration
      */
     public function up()
     {
-        Schema::create('hoa_dons', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('IDKhachHang');
-            $table->integer('ThanhTien')->nullable();
-            $table->integer('TrangThai');
+            $table->string('Anh');
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
@@ -31,6 +28,6 @@ class HoaDon extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hoa_dons');
+        Schema::dropIfExists('banners');
     }
 }

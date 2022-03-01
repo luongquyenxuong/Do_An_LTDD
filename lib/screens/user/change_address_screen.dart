@@ -1,27 +1,32 @@
+import 'package:app_thoi_trang/models/address_user.dart';
 import 'package:app_thoi_trang/network/network_request.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class AddressScreen extends StatefulWidget {
-  int idKhachHang;
-   AddressScreen({Key? key,required this.idKhachHang}) : super(key: key);
+class ChangeAddressScreen extends StatefulWidget {
+  Address address;
+
+   ChangeAddressScreen({Key? key,required this.address}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  _AddressScreenState createState() => _AddressScreenState(idKhachHang);
+  _ChangeAddressScreenState createState() => _ChangeAddressScreenState(address);
 }
 
-class _AddressScreenState extends State<AddressScreen> {
+class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
+  late String ten= address.hoTen!;
   var tenController = TextEditingController();
   var tenduongController = TextEditingController();
   var phuongController = TextEditingController();
   var quanController = TextEditingController();
   var thanhphoController = TextEditingController();
+  late String sdt= address.sDT!;
   var sdtController = TextEditingController();
-int idKhachHang;
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-_AddressScreenState(this.idKhachHang);
+  Address address;
+
+_ChangeAddressScreenState(this.address);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,7 +36,7 @@ _AddressScreenState(this.idKhachHang);
       child: Scaffold(
         backgroundColor: const Color(0xffD9D9D9),
         appBar: AppBar(
-          title: const Text('Thêm địa chỉ mới',
+          title: const Text('Sửa địa chỉ',
               style: TextStyle(color: Colors.black)),
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -46,16 +51,16 @@ _AddressScreenState(this.idKhachHang);
           actions: [
             TextButton(
               onPressed: ()async {
-                if(formkey.currentState!.validate()){ 
-  if(await insertDiaChi(idKhachHang, tenController.text, tenduongController.text, phuongController.text, quanController.text, thanhphoController.text, sdtController.text, context)==true)
+                if(formkey.currentState!.validate()){
+   if(await updateDiaChi(address.id!,address.iDKhachHang!, tenController.text, tenduongController.text, phuongController.text, quanController.text, thanhphoController.text, sdtController.text, context)==true)
                 {
                   ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Lưu thông tin thành công')));
+                  const SnackBar(content: Text('Lưu địa chỉ thành công')));
                   Navigator.pop(context);
                  }
                 }
                 // ignore: unrelated_type_equality_checks
-              
+             
               },
               child: const Text(
                 'Lưu',
@@ -67,7 +72,7 @@ _AddressScreenState(this.idKhachHang);
         body: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Form(
-             key: formkey,
+            key: formkey,
             child: Column(
               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -80,7 +85,7 @@ _AddressScreenState(this.idKhachHang);
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       child: TextFormField(
-                         validator: (value) {
+                            validator: (value) {
                         if (value!.isEmpty) {
                           return "Vui lòng nhập họ tên !";
                         }
@@ -92,7 +97,10 @@ _AddressScreenState(this.idKhachHang);
                           return null;
                         }
                       },
-                        controller: tenController,
+                        onChanged: (_ten) {
+                          ten=_ten;
+                        },
+                        controller: tenController..text=ten,
                         decoration:
                             const InputDecoration.collapsed(hintText: "Tên "),
                       ),
@@ -106,7 +114,7 @@ _AddressScreenState(this.idKhachHang);
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       child: TextFormField(
-                         validator: (value) {
+                           validator: (value) {
                         if (value!.isEmpty) {
                           return "Sô điện thoại không được bỏ trống";
                         }
@@ -118,7 +126,10 @@ _AddressScreenState(this.idKhachHang);
                           return null;
                         }
                       },
-                        controller: sdtController,
+                        onChanged: (_sdt) {
+                          sdt=_sdt;
+                        },
+                        controller: sdtController..text=sdt,
                         decoration:
                             const InputDecoration.collapsed(hintText: "SĐT"),
                       ),

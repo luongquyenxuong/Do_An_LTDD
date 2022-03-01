@@ -5,6 +5,9 @@ import 'package:app_thoi_trang/network/network_request.dart';
 import 'package:app_thoi_trang/screens/cart/cart_screen.dart';
 import 'package:app_thoi_trang/screens/home/search_screen.dart';
 import 'package:app_thoi_trang/screens/home/show_screen.dart';
+
+import 'package:app_thoi_trang/screens/wdg/cart_provider.dart';
+
 //import 'package:app_thoi_trang/screens/wdg/wdg_product.dart';
 //import 'package:app_thoi_trang/screens/wdg/wdg_product_highlights.dart';
 import 'package:app_thoi_trang/screens/wdg/wdg_product_hightlight_home.dart';
@@ -21,17 +24,23 @@ import 'package:badges/badges.dart';
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
   final User user;
-   HomeScreen({Key? key, required this.user}) : super(key: key);
+
+   int? dc;
+   HomeScreen({Key? key, required this.user,this.dc}) : super(key: key);
 
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  _HomeState createState() => _HomeState(this.user);
+  _HomeState createState() => _HomeState(this.user,this.dc);
+
 }
 
 class _HomeState extends State<HomeScreen> {
   final User user;
 
-  _HomeState(this.user);
+   int? dc;
+
+  _HomeState(this.user,this.dc);
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +52,9 @@ class _HomeState extends State<HomeScreen> {
         data: Theme.of(context).copyWith(canvasColor: const Color(0xffD9D9D9)),
         child: NavDrawer(
           user: user,
+
+          dc: dc!,
+
         ),
       ),
       appBar: AppBar(
@@ -65,30 +77,32 @@ class _HomeState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.search, color: Colors.white),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen(user: user)));
+
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen(user: user,dc:dc)));
             },
           ),
-          // Badge(
-          //   position: BadgePosition.topEnd(top: 0, end: 3),
-          //   badgeContent:
-          //       Consumer<CartProvider>(builder: (context, value, child) {
-          //     return Text(value.getCounter().toString(),
-          //         style: const TextStyle(color: Colors.white));
-          //   }),
-          //   //padding: EdgeInsets.only(left: 10),
-          //   animationDuration: const Duration(milliseconds: 300),
-          //   //animationType: BadgeAnimationType.slide,
-          //   child: IconButton(
-          //     icon:
-          //         const Icon(Icons.shopping_bag_outlined, color: Colors.white),
-          //     onPressed: () {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => CartScreen(user: user)));
-          //     },
-          //   ),
-          // ),
+          Badge(
+            position: BadgePosition.topEnd(top: 0, end: 3),
+            badgeContent:
+                Consumer<CartProvider>(builder: (context, value, child) {
+              return Text(value.getCounter().toString(),
+                  style: const TextStyle(color: Colors.white));
+            }),
+            //padding: EdgeInsets.only(left: 10),
+            animationDuration: const Duration(milliseconds: 300),
+            //animationType: BadgeAnimationType.slide,
+            child: IconButton(
+              icon:
+                  const Icon(Icons.shopping_bag_outlined, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CartScreen(user: user,dc: dc,)));
+              },
+            ),
+          ),
+
           const SizedBox(
             width: 15,
           )
@@ -127,6 +141,9 @@ class _HomeState extends State<HomeScreen> {
 
           TypeProduct(
             user: user,
+
+            dc: dc!,
+
           ),
           const SizedBox(height: 5),
 
@@ -149,6 +166,9 @@ class _HomeState extends State<HomeScreen> {
                             builder: (context) => ShowScreen(
                                   user: user,
                                   idLoai: 0,
+
+                                  dc: dc,
+
                                 )));
                   },
                   child: Row(
@@ -169,6 +189,9 @@ class _HomeState extends State<HomeScreen> {
             ),
           ),
           AllProductsHighlightHome(
+
+            dc:dc,
+
             user: user,
           ),
           //const AllProductsHighlight(),
@@ -191,7 +214,8 @@ class _HomeState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ShowScreen(idLoai: -1, user: user)));
+                        builder: (context) => ShowScreen(idLoai: -1, user: user,dc: dc)));
+
                   },
                   child: Row(
                     children: [
@@ -212,6 +236,9 @@ class _HomeState extends State<HomeScreen> {
           ),
           AllProductsHome(
             user: user,
+
+            dc:dc,
+
           ),
           // const AllProducts(),
           const SizedBox(height: 50),

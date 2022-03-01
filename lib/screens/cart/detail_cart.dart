@@ -8,6 +8,7 @@ class ItemsDetailCart extends StatefulWidget {
   final String imageUrl;
   final int quantity;
   final int price;
+  
   const ItemsDetailCart(
       {Key? key, required this.name, required this.size, required this.imageUrl, required this.quantity, required this.price})
       : super(key: key);
@@ -22,15 +23,14 @@ class _ItemsDetailCartState extends State<ItemsDetailCart> {
   final String name;
   final String size;
   final String imageUrl;
+ 
   final int quantity;
   final int price;
   _ItemsDetailCartState(
       this.name, this.size, this.imageUrl, this.quantity, this.price);
    get _soluong => quantity;
    int total(){
-    
       return quantity*price;
-   
  }
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _ItemsDetailCartState extends State<ItemsDetailCart> {
       
         children: [
         Image.asset(
-          imageUrl,
+          "assets/img/product/"+imageUrl,
           width: 100,
           height: 100,
         ),

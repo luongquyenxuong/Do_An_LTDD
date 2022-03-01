@@ -1,16 +1,96 @@
 //import 'package:app_thoi_trang/models/cart_detail.dart';
 //import 'package:app_thoi_trang/screens/wdg/wdg_detail_cart.dart';
+import 'package:app_thoi_trang/models/cthd.dart';
+import 'package:app_thoi_trang/network/network_request.dart';
+import 'package:app_thoi_trang/screens/wdg/wdg_detail_cart.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
-class Detail extends StatelessWidget {
-  const Detail({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class Detail extends StatefulWidget {
+  int id;
+  int trangthai;
+  int thanhtien;
+  int? iddiachi;
+  Detail(
+      {Key? key,
+      required this.id,
+      required this.trangthai,
+      required this.thanhtien,
+      this.iddiachi})
+      : super(key: key);
+
+  @override
+  // ignore: no_logic_in_create_state
+  State<Detail> createState() =>
+      // ignore: no_logic_in_create_state
+      _DetailState(id, trangthai, thanhtien, iddiachi);
+}
+
+class _DetailState extends State<Detail> {
   final int ship1 = 2;
+  int id;
+  int thanhtien;
+  int? iddiachi;
+  int trangthai;
+  _DetailState(this.id, this.trangthai, this.thanhtien, this.iddiachi);
+
+  settrangthai() {
+    if (trangthai == 0) {
+      return 'Chờ xác nhận';
+    }
+    if (trangthai == 1) {
+      return 'Đang giao';
+    }
+    if (trangthai == 2) {
+      return 'Đã giao';
+    }
+    if (trangthai == 3) {
+      return 'Đã hủy';
+    }
+    //return "";
+  }
+
+  setColorTrangThai() {
+    if (trangthai == 2) {
+      return Colors.lightBlueAccent;
+    } else if (trangthai == 1) {
+      return Colors.green;
+    } else if (trangthai == 0) {
+      return Colors.lightBlue;
+    } else if (trangthai == 3) {
+      return Colors.red;
+    }
+  }
+
+  hiddenrate() {
+    if (trangthai == 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  hiddenbuy() {
+    if (trangthai == 2 || trangthai == 1 || trangthai == 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  hiddenwait() {
+    if (trangthai == 0) {
+      //print(trangthai);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    //final prcart = Provider.of<CartDetails>(context);
-    //final pdcart = prcart.total();
     return Scaffold(
         backgroundColor: const Color(0xffD9D9D9),
         appBar: AppBar(
@@ -45,40 +125,50 @@ class Detail extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    SizedBox(
-                        width: 215,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Địa chỉ nhận hàng\n',
-                              style: TextStyle(
-                                  color: Color(0xff000000),
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            const Text(
-                              'Lương Quyền Xương',
-                              style: TextStyle(
-                                  color: Color(0xff000000),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            const Text(
-                              '123456789',
-                              style: TextStyle(
-                                  color: Color(0xff000000),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Flexible(
-                              child: Column(
-                                children: const [
-                                  Text('500 cách mạng tháng 8, quận 3,tp.HCM',
+                    Builder(builder: (context) {
+                      return FutureBuilder<CTHD?>(
+                        future: cthdfirst(id),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SizedBox(
+                                width: 215,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Địa chỉ nhận hàng\n',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500)),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    Text(
+                                      snapshot.data!.ten!,
+                                      style: const TextStyle(
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      snapshot.data!.sDT!,
+                                      style: const TextStyle(
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Flexible(
+                                      child: Column(
+                                        children: [
+                                          Text(snapshot.data!.diaChi!,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w500)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                          }
+                          return const Text('no data');
+                        },
+                      );
+                    }),
                     const Spacer(),
                   ],
                 ),
@@ -90,11 +180,11 @@ class Detail extends StatelessWidget {
             Container(
               height: 30,
               color: Colors.white,
-              padding:const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               alignment: Alignment.centerLeft,
-              child:const Text(
-                'Giao hàng thành công',
-                style: TextStyle(color: Color(0xff0FAE62)),
+              child: Text(
+                settrangthai(),
+                style: TextStyle(color: setColorTrangThai()),
               ),
             ),
             Container(
@@ -106,11 +196,11 @@ class Detail extends StatelessWidget {
                     color: Colors.black,
                     width: 0.5,
                   ))),
-              padding:const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               alignment: Alignment.centerLeft,
-              child:const Text(
-                'ID:',
-                style: TextStyle(color: Colors.black),
+              child: Text(
+                'ID hóa đơn : $id',
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             const SizedBox(
@@ -133,14 +223,16 @@ class Detail extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // const CartItemDetail(),
+            CartItemDetail(
+              idHD: id,
+            ),
             const SizedBox(height: 10),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             padding: const EdgeInsets.all(10),
-            height: 110,
+            height: 80,
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
@@ -155,10 +247,12 @@ class Detail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children:const [
-                           Text('Giá tiền:'),
-                           Spacer(),
-                         // Text('$pdcart\$')
+
+                        children: [
+                          const Text('Giá tiền:'),
+                          const Spacer(),
+                          Text('${thanhtien - ship1}\$')
+
                         ],
                       ),
                       Row(
@@ -169,34 +263,95 @@ class Detail extends StatelessWidget {
                         ],
                       ),
                       Row(
-                        children:const [
+                        children: [
                            Text(
                             'Thành tiền :',
                             style: TextStyle(
                                 fontWeight: FontWeight.w800, color: Colors.red),
                           ),
-                           Spacer(),
-                          // Text((pdcart + ship1).toString() + '\$',
-                          //     style: const TextStyle(
-                          //         fontWeight: FontWeight.w800,
-                          //         color: Colors.red)),
+
+                          const Spacer(),
+                          Text('$thanhtien\$',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.red)),
+
                         ],
                       ),
                     ],
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      width: _width,
-                      margin: const EdgeInsets.only(top: 10),
-                      color: Colors.red,
-                      child: const Center(
-                        child: Text('Mua lại',
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                    ),
-                  )
+                  // Visibility(
+                  //   visible:hiddenrate() ,
+                  //   child: InkWell(
+                  //     onTap: () {},
+                  //     child: Container(
+                  //       height: 30,
+                  //       width: _width,
+                  //       margin: const EdgeInsets.only(top: 10),
+                  //       color: Colors.red,
+                  //       child: const Center(
+                  //         child: Text('Mua lại',
+                  //             style: TextStyle(color: Colors.white)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Visibility(
+                  //   visible: hiddenbuy(),
+                  //   child: InkWell(
+                  //     onTap: () {},
+                  //     child: Container(
+                  //       height: 30,
+                  //       width: _width,
+                  //       margin: const EdgeInsets.only(top: 10),
+                  //       color: Colors.red,
+                  //       child: const Center(
+                  //         child: Text('Mua lại',
+                  //             style: TextStyle(color: Colors.white)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Visibility(
+                  //   visible: hiddenwait(),
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       showDialog(
+                  //           context: context,
+                  //           builder: (context) => AlertDialog(
+                  //                 title: const Text("Thông báo"),
+                  //                 content:
+                  //                     const Text("Bạn có muốn xóa ?"),
+                  //                 actions: <Widget>[
+                  //                   TextButton(
+                  //                     child: const Text("Xác nhận"),
+                  //                     onPressed: ()async {
+                  //                       //Navigator.of(context).pop();
+                  //                        await huyHD(id, 3,context);
+                                         
+                  //                     },
+                  //                   ),
+                  //                    TextButton(
+                  //                     child: const Text("Hủy"),
+                  //                     onPressed: () {
+                  //                       Navigator.of(context).pop();
+                  //                     },
+                  //                   ),
+                  //                 ],
+                  //               ));
+                  //     },
+                  //     child: Container(
+                  //       height: 30,
+                  //       width: _width,
+                  //       margin: const EdgeInsets.only(top: 10),
+                  //       color: Colors.red,
+                  //       child: const Center(
+                  //         child: Text('Hủy',
+                  //             style: TextStyle(color: Colors.white)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

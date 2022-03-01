@@ -15,12 +15,16 @@ class AllProducts extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  State<AllProducts> createState() => _AllProductsState(user);
+
+  State<AllProducts> createState() => _AllProductsState(user, dc);
+
 }
 
 class _AllProductsState extends State<AllProducts> {
   final User user;
-  _AllProductsState(this.user);
+  int? dc;
+  _AllProductsState(this.user, this.dc);
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,9 @@ class _AllProductsState extends State<AllProducts> {
                     crossAxisCount: 2),
                 itemBuilder: (ctx, i) => PdtItem(
                       user: user,
+
+                      dc: dc,
+
                       id: snapshot.data?[i].iD,
                       size: snapshot.data?[i].kichThuoc,
                       ten: snapshot.data?[i].tenSp,

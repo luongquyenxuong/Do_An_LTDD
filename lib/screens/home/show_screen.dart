@@ -11,17 +11,23 @@ import 'package:flutter/material.dart';
 class ShowScreen extends StatefulWidget {
   int idLoai;
   final User user;
-  ShowScreen({Key? key, required this.idLoai, required this.user})
+
+  int? dc;
+  ShowScreen({Key? key, required this.idLoai, required this.user,this.dc})
+
       : super(key: key);
 
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  _ShowState createState() => _ShowState(this.idLoai, this.user);
+
+  _ShowState createState() => _ShowState(this.idLoai, this.user,dc);
+
 }
 
 class _ShowState extends State<ShowScreen> with TickerProviderStateMixin {
   final User user;
   late int idLoai;
+int? dc;
   List<Widget> listTab = [
     Row(children: const [
       Icon(
@@ -132,7 +138,9 @@ class _ShowState extends State<ShowScreen> with TickerProviderStateMixin {
     // controller.animateTo(2);
   }
 
-  _ShowState(this.idLoai, this.user);
+
+  _ShowState(this.idLoai, this.user,this.dc);
+
   @override
   Widget build(BuildContext context) {
     //int id=idLoai;
@@ -216,33 +224,52 @@ class _ShowState extends State<ShowScreen> with TickerProviderStateMixin {
           children: [
             AllProductView(
               user: user,
+
+              dc: dc,
             ),
             AllProductHighlightView(
               id: 0,
+              dc: dc,
               user: user,
             ),
             TypeProductView(
+              dc: dc,
+
               id: 1,
               user: user,
             ),
             TypeProductView(
               id: 2,
+              dc: dc,
+
               user: user,
             ),
             TypeProductView(
               id: 3,
+
+              dc: dc,
+
               user: user,
             ),
             TypeProductView(
               id: 4,
+
+              dc: dc,
+
               user: user,
             ),
             TypeProductView(
               id: 5,
+
+              dc: dc,
+
               user: user,
             ),
             TypeProductView(
               id: 6,
+
+              dc: dc,
+
               user: user,
             ),
           ],
@@ -276,6 +303,9 @@ class TypeProductView extends StatelessWidget {
         AllProductsType(
           idLoaiSp: id,
           user: user,
+
+          dc:dc,
+
         ),
         const SizedBox(height: 50),
       ],
@@ -294,7 +324,8 @@ class AllProductView extends StatelessWidget {
     return ListView(
       children: [
         const SizedBox(height: 10),
-        AllProducts(user: user),
+        AllProducts(user: user,dc: dc,),
+
         const SizedBox(height: 50),
       ],
     );
@@ -315,7 +346,9 @@ class AllProductHighlightView extends StatelessWidget {
     return ListView(
       children: [
         const SizedBox(height: 10),
-        AllProductsHighlight(user: user),
+
+        AllProductsHighlight(user: user,dc: dc,),
+
         const SizedBox(height: 50),
       ],
     );

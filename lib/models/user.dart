@@ -25,7 +25,7 @@ class User {
         email: json['email'],
         password: json['password'],
         hoTen: json['HoTen'],
-        gioiTinh: json['GioiTinh'],
+        gioiTinh:json['GioiTinh'], 
         ngaySinh: json['NgaySinh'],
         sDT: json['SDT'],
         avatar: json['Avatar'],

@@ -1,36 +1,51 @@
-// import 'package:app_thoi_trang/models/order.dart';
-// import 'package:app_thoi_trang/screens/cart/donhang.dart';
-// import 'package:flutter/material.dart';
+//import 'package:app_thoi_trang/models/order.dart';
+//import 'package:app_thoi_trang/models/HoaDonTab.dart';
+import 'package:app_thoi_trang/models/Invoice.dart';
+//import 'package:app_thoi_trang/models/Invoice_detail.dart';
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/network/network_request.dart';
+import 'package:app_thoi_trang/screens/cart/donhang.dart';
+import 'package:flutter/material.dart';
 
+//import 'package:provider/provider.dart';
 
-// //import 'package:provider/provider.dart';
+// ignore: must_be_immutable
+class Wgtdonmua extends StatefulWidget {
+  User user;
+  int trangThai;
+  Wgtdonmua({Key? key, required this.user, required this.trangThai})
+      : super(key: key);
 
-// class Wgtdonmua extends StatefulWidget {
-//   const Wgtdonmua({Key? key}) : super(key: key);
+  @override
+  // ignore: unnecessary_this, no_logic_in_create_state
+  _WgtdonmuaState createState() => _WgtdonmuaState(this.user, this.trangThai);
+}
 
-//   @override
-//   _WgtdonmuaState createState() => _WgtdonmuaState();
-// }
+class _WgtdonmuaState extends State<Wgtdonmua> {
+  User user;
+  int trangThai;
 
-// class _WgtdonmuaState extends State<Wgtdonmua> {
-//   @override
-//   Widget build(BuildContext context) {
-//    // final idonmua = Provider.of<DonmuaItems>(context);
-//    // final idonmua2 = idonmua.items;
-//     return ListView.builder(
-//         physics: const ScrollPhysics(),
-//         shrinkWrap: true,
-//         itemCount: idonmua2.length,
-//         itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-//               value: idonmua2[i],
-//               child: Donmuas(
-//                 ngaytao: idonmua2[i].ngaytao,
-//                 tensanpham: idonmua2[i].tensanpham,
-//                 trangthai: idonmua2[i].trangthai,
-//                 soluong: idonmua2[i].soluong,
-//                 hinhanh: idonmua2[i].hinhanh,
-//                 gia: idonmua2[i].gia,
-//               ),
-//             ));
-//   }
-// }
+  _WgtdonmuaState(this.user, this.trangThai);
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Invoice>>(
+      future: apiDanhSachHoaDon(user.id!, trangThai),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: snapshot.data?.length ?? 0,
+              itemBuilder: (ctx, i) => Donmuas(
+                    user: user,
+                    id: snapshot.data![i].id!,
+                    thanhTien: snapshot.data![i].thanhTien.toString(),
+                    trangThai: snapshot.data![i].trangThai!,
+                    ngayTao: snapshot.data![i].createdAt!,
+                  ));
+        }
+        return const Text("no data");
+      },
+    );
+  }
+}

@@ -12,16 +12,22 @@ import 'show_screen.dart';
 // ignore: must_be_immutable
 class NavDrawer extends StatefulWidget {
   User? user;
-  NavDrawer({Key? key, this.user}) : super(key: key);
+
+  int? dc;
+  NavDrawer({Key? key, this.user, required this.dc}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  State<NavDrawer> createState() => _NavDrawerState(this.user);
+  State<NavDrawer> createState() => _NavDrawerState(this.user, this.dc);
+
 }
 
 class _NavDrawerState extends State<NavDrawer> {
   User? user;
-  _NavDrawerState(this.user);
+
+  int? dc;
+  _NavDrawerState(this.user, this.dc);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -70,6 +76,9 @@ class _NavDrawerState extends State<NavDrawer> {
                       MaterialPageRoute(
                           builder: (context) => ShowScreen(
                                 user: user!,
+
+                                dc: dc,
+
                                 idLoai: 1,
                               )))
                 },
@@ -90,6 +99,9 @@ class _NavDrawerState extends State<NavDrawer> {
                       MaterialPageRoute(
                           builder: (context) => ShowScreen(
                                 user: user!,
+
+                                dc: dc,
+
                                 idLoai: 2,
                               )))
                 },
@@ -110,6 +122,9 @@ class _NavDrawerState extends State<NavDrawer> {
                       MaterialPageRoute(
                           builder: (context) => ShowScreen(
                                 user: user!,
+
+                                dc: dc,
+
                                 idLoai: 3,
                               )))
                 },
@@ -131,6 +146,9 @@ class _NavDrawerState extends State<NavDrawer> {
                           builder: (context) => ShowScreen(
                                 user: user!,
                                 idLoai: 4,
+
+                                dc: dc,
+
                               )))
                 },
               ),
@@ -150,6 +168,9 @@ class _NavDrawerState extends State<NavDrawer> {
                       MaterialPageRoute(
                           builder: (context) => ShowScreen(
                                 user: user!,
+
+                                dc: dc,
+
                                 idLoai: 5,
                               )))
                 },
@@ -170,7 +191,9 @@ class _NavDrawerState extends State<NavDrawer> {
                       MaterialPageRoute(
                           builder: (context) => ShowScreen(
                                 user: user!,
-                                idLoai: 6,
+
+                                dc: dc,
+              idLoai: 6,
                               )))
                 },
               ),
@@ -219,7 +242,17 @@ class _NavDrawerState extends State<NavDrawer> {
                   height: 30,
                 ),
                 title: const Text('Đơn mua'),
-                onTap: () => {},
+
+                onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DonHangScreen(
+                                user: user!,
+                                trangthai: 4,
+                              )))
+                },
+
               ),
             ),
             Container(
@@ -237,7 +270,18 @@ class _NavDrawerState extends State<NavDrawer> {
                   // height: 30,
                 ),
                 title: const Text('Địa chỉ'),
-                onTap: () => {},
+
+                onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddressUserScreen(
+                                user: user!,
+                                check: false,
+                                dc: dc!,
+                              )))
+                },
+
               ),
             ),
             // Container(

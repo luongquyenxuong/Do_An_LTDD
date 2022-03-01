@@ -1,3 +1,4 @@
+
 // ignore_for_file: no_logic_in_create_state
 
 import 'package:app_thoi_trang/models/product.dart';
@@ -12,16 +13,18 @@ import '../../network/network_request.dart';
 // ignore: must_be_immutable
 class AllProductsHome extends StatefulWidget {
   final User user;
-   AllProductsHome({Key? key,required this.user}) : super(key: key);
+  int? dc;
+   AllProductsHome({Key? key,required this.user,this.dc}) : super(key: key);
 
   @override
   // ignore: unnecessary_this
-  State<AllProductsHome> createState() => _AllProductsHomeState(this.user);
+  State<AllProductsHome> createState() => _AllProductsHomeState(this.user,dc);
 }
 
 class _AllProductsHomeState extends State<AllProductsHome> {
   final User user;
-_AllProductsHomeState(this.user);
+  int? dc;
+_AllProductsHomeState(this.user,this.dc);
   // @override
   // void initState(){
   //   super.initState();
@@ -60,6 +63,7 @@ _AllProductsHomeState(this.user);
                     crossAxisCount: 1),
                 itemBuilder: (ctx, i) => PdtItem(
                   user: user,
+                  dc: dc,
                       id: snapshot.data![i].iD,
                       size: snapshot.data?[i].kichThuoc??"",
                       ten: snapshot.data?[i].tenSp??"",
@@ -74,3 +78,7 @@ _AllProductsHomeState(this.user);
     );
   }
 }
+
+class SanPham {
+}
+

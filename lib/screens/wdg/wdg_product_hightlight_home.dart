@@ -1,3 +1,4 @@
+
 import 'package:app_thoi_trang/models/product.dart';
 import 'package:app_thoi_trang/models/user.dart';
 import 'package:app_thoi_trang/screens/home/produc_item.dart';
@@ -10,16 +11,18 @@ import '../../network/network_request.dart';
 // ignore: must_be_immutable
 class AllProductsHighlightHome extends StatefulWidget {
   final User user;
-   AllProductsHighlightHome({Key? key,required this.user}) : super(key: key);
+  int? dc;
+   AllProductsHighlightHome({Key? key,required this.user,this.dc}) : super(key: key);
 
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  State<AllProductsHighlightHome> createState() => _AllProductsHighlightHomeState(this.user);
+  State<AllProductsHighlightHome> createState() => _AllProductsHighlightHomeState(this.user,dc);
 }
 
 class _AllProductsHighlightHomeState extends State<AllProductsHighlightHome> {
+int? dc;
   final User user;
-  _AllProductsHighlightHomeState(this.user);
+  _AllProductsHighlightHomeState(this.user,this.dc);
   // @override
   // void initState(){
   //   super.initState();
@@ -58,6 +61,7 @@ class _AllProductsHighlightHomeState extends State<AllProductsHighlightHome> {
                     crossAxisCount: 1),
                 itemBuilder: (ctx, i) => PdtItem(
                   user: user,
+                  dc: dc,
                     id: snapshot.data?[i].iD??0,
                       size: snapshot.data?[i].kichThuoc??"",
                       ten: snapshot.data?[i].tenSp??"",
@@ -75,3 +79,4 @@ class _AllProductsHighlightHomeState extends State<AllProductsHighlightHome> {
 
 class SanPham {
 }
+

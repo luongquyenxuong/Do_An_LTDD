@@ -1,10 +1,23 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:convert';
-//import 'dart:io';
+//import 'package:app_thoi_trang/models/Invoice.dart';
+//import 'package:app_thoi_trang/models/Invoice_detail.dart';
+//import 'package:app_thoi_trang/models/cart.dart';
+//import 'package:app_thoi_trang/models/HoaDonTab.dart';
+import 'package:app_thoi_trang/models/Invoice.dart';
+//import 'package:app_thoi_trang/models/Invoice_detail.dart';
+import 'package:app_thoi_trang/models/cthd.dart';
+import 'package:app_thoi_trang/models/db_helper.dart';
 import 'package:app_thoi_trang/models/user.dart';
 import 'package:app_thoi_trang/screens/home/main_screen.dart';
+
+import 'package:app_thoi_trang/screens/wdg/cart_provider.dart';
+
 import 'package:app_thoi_trang/screens/welcome/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:async';
 import '../models/address_user.dart';
 import '../models/banner.dart';
@@ -50,6 +63,10 @@ Future<List<Product>> apiListLoaiSanpham(int idLoai) async {
   } catch (_) {}
   return dsSanPhamLoai;
 }
+
+
+
+
 
 Future<List<Product>> apiListSanphamNoiBat(int noibat) async {
   var uri = uriBase + 'san-pham/noi-bat/$noibat';
@@ -100,18 +117,114 @@ Future<Address?> apiDiaChi(int id) async {
   } catch (_) {}
 }
 
-Future<Address?> apiDiaChiKH(int? id, int? idKH) async {
-  var uri = uriBase + 'dia-chi/khach-hang/$id/$idKH';
+
+Future<Address?> apiDiaChiKH(int id, int idKH) async {
+  var uri = uriBase + 'dia-chi/khach-hang/id/$id/idKhachHang/$idKH';
   try {
     final response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
-      Address dcKH = Address.fromJson((jsonDecode(response.body)));
-      return dcKH;
+      Address dc = Address.fromJson((jsonDecode(response.body)));
+      return dc;
+
     }
   } catch (_) {}
 }
 
-Future<List<Address>?> apidsDiaChiKH(int idKH) async {
+
+Future<Address?> apiDiaChiDauKH(int idKH) async {
+  var uri = uriBase + 'dia-chi-dau/khach-hang/$idKH';
+  try {
+    final response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      Address dc = Address.fromJson((jsonDecode(response.body)));
+      return dc;
+    }
+  } catch (_) {}
+}
+
+Future<bool> insertDiaChi(int idKhachHang, String ten, String tenduong,
+    String phuong, String quan, String thanhpho, String sdt, context) async {
+  if (idKhachHang != null &&
+      ten.isNotEmpty &&
+      tenduong.isNotEmpty &&
+      phuong.isNotEmpty &&
+      quan.isNotEmpty &&
+      thanhpho.isNotEmpty &&
+      sdt.isNotEmpty) {
+    final response = await http.post(Uri.parse(uriBase + "insertDiaChi"),
+        body: ({
+          "idkhachhang": idKhachHang.toString(),
+          "sdt": sdt,
+          "ten": ten,
+          "diachi": tenduong + ',' + phuong + ',' + quan + ',' + thanhpho,
+        }));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("thêm địa chỉ thất bại"),
+                // content:const Text("Vui lòng nhập đầy đủ thông tin"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Ok"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ));
+    }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin")));
+  }
+  return false;
+}
+Future<bool> updateDiaChi(int id,int idKhachHang, String ten, String tenduong,
+    String phuong, String quan, String thanhpho, String sdt, context) async {
+  if (idKhachHang != null &&
+      ten.isNotEmpty &&
+      tenduong.isNotEmpty &&
+      phuong.isNotEmpty &&
+      quan.isNotEmpty &&
+      thanhpho.isNotEmpty &&
+      sdt.isNotEmpty) {
+    final response = await http.post(Uri.parse(uriBase + "updateDiaChi"),
+        body: ({
+          "id":id.toString(),
+          "idkhachhang": idKhachHang.toString(),
+          "sdt": sdt,
+          "ten": ten,
+          "diachi": tenduong + ',' + phuong + ',' + quan + ',' + thanhpho,
+        }));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Lưu địa chỉ thất bại"),
+                // content:const Text("Vui lòng nhập đầy đủ thông tin"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Ok"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ));
+    }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin")));
+  }
+  return false;
+}
+Future<List<Address>?> apidsDiaChiKH(int? idKH) async {
+
   var uri = uriBase + 'dia-chi/ds-khach-hang/$idKH';
   List<Address> dsDCKH = [];
   try {
@@ -134,6 +247,7 @@ Future<User> login(String email, String password, context) async {
     gioiTinh: 0,
     avatar: "",
   );
+  Address? dc;
   if (email.isNotEmpty && password.isNotEmpty) {
     final response = await http.post(Uri.parse(uriBase + "login"),
         body: ({
@@ -144,7 +258,11 @@ Future<User> login(String email, String password, context) async {
 
     if (response.statusCode == 200) {
       result = User.fromJson(json.decode(response.body));
-
+      var uriDC = uriBase + 'dia-chi-dau/khach-hang/${result.id}';
+      final responseDC = await http.get(Uri.parse(uriDC));
+      if (responseDC.statusCode == 200) {
+        dc = Address.fromJson((jsonDecode(responseDC.body)));
+      }
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Login Successfull')));
       Navigator.pushAndRemoveUntil(
@@ -152,6 +270,9 @@ Future<User> login(String email, String password, context) async {
           MaterialPageRoute(
               builder: (context) => HomeScreen(
                     user: result,
+
+                    dc: dc?.id ?? 0,
+
                   )),
           (route) => false);
     } else {
@@ -159,8 +280,7 @@ Future<User> login(String email, String password, context) async {
           context: context,
           builder: (context) => AlertDialog(
                 title: const Text("Đăng nhập thất bai"),
-                content:
-                    const Text("Sai email hoặc mật khẩu"),
+                content: const Text("Sai email hoặc mật khẩu"),
                 actions: <Widget>[
                   TextButton(
                     child: const Text("Ok"),
@@ -177,6 +297,9 @@ Future<User> login(String email, String password, context) async {
   }
   return result;
 }
+
+
+
 Future<User> register(String email, String password, String hoten, String phone,
     int sex, context) async {
   User result = User(
@@ -326,4 +449,148 @@ Future<User> updatePassword(int id, String password, context) async {
         const SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin")));
   }
   return result;
+
+}
+
+Future<bool> checkout(
+    int idKH, int thanhtien, int trangthai, int idDC, context) async {
+  // Invoice result = Invoice(
+  //   id: 0,
+  //   iDKhachHang: 0,
+  //   thanhTien: 0,
+  //   trangThai: 0,
+  //   createdAt: "",
+  //   updatedAt: "",
+  // );
+  //Address? DC;
+  if (idKH != null && thanhtien != null && trangthai != null && idDC != null) {
+    final prcart = Provider.of<CartProvider>(context, listen: false);
+    final cart = await prcart.getData();
+
+    List<Map<String, dynamic>> cthd = [];
+    for (var item in cart!) {
+      cthd.add({
+        "idsanpham": "${item.idSp}",
+        "soluong": "${item.soluong}",
+        "iddiachi": "$idDC",
+        "gia": "${item.giabandau}",
+      });
+    }
+    final body1 = json.encode({
+      "idkhachhang": "$idKH",
+      "thanhtien": "$thanhtien",
+      "trangthai": "$trangthai",
+      "data": cthd
+    });
+    final response = await http.post(Uri.parse(uriBase + "themhd"),
+        body: body1,
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json"
+        });
+    if (response.statusCode == 200) {
+      DBHelper().deleteAllCart();
+      Navigator.pop(context);
+      return true;
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Đăng nhập thất bai"),
+                content: const Text("Sai email hoặc mật khẩu"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ));
+    }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Bạn phải nhập đầy đủ email và mật khẩu!")));
+  }
+  return false;
+}
+
+Future<List<Invoice>> apiDanhSachHoaDon(int idKH, int trangthai) async {
+  var uri = uriBase + 'hoa-don/KH/$idKH/$trangthai';
+  List<Invoice> dsHoaDon = [];
+  try {
+    final response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      List jsonRaw = jsonDecode(response.body);
+      dsHoaDon = jsonRaw.map((e) => Invoice.fromJson(e)).toList();
+    }
+  } catch (_) {}
+  return dsHoaDon;
+}
+
+// Future<List<InvoiceDetail>> apiChiTietHoaDon(int idHD) async {
+//   var uri = uriBase + 'cthd/hd/$idHD';
+//   List<InvoiceDetail> dsCTHoaDon = [];
+//   try {
+//     final response = await http.get(Uri.parse(uri));
+//     if (response.statusCode == 200) {
+//       List jsonRaw = jsonDecode(response.body);
+//       dsCTHoaDon = jsonRaw.map((e) => InvoiceDetail.fromJson(e)).toList();
+//     }
+//   } catch (_) {}
+//   return dsCTHoaDon;
+// }
+Future<CTHD?> cthdfirst(int idHD) async {
+  var uri = uriBase + 'cthdfirst?idhoadon=$idHD';
+
+  try {
+    final response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      // CTHD  cthd = CTHD.fromJson(json.decode(response.body));
+      // return cthd;
+      CTHD cthd = CTHD.fromJson((jsonDecode(response.body)));
+      return cthd;
+    }
+  } catch (_) {}
+  // return cthd;
+}
+
+Future<List<CTHD>> cthd(int idHD) async {
+  var uri = uriBase + 'cthd1?idhoadon=$idHD';
+  List<CTHD> cthd = [];
+  try {
+    final response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      List jsonRaw = jsonDecode(response.body);
+      cthd = jsonRaw.map((e) => CTHD.fromJson(e)).toList();
+    }
+  } catch (_) {}
+  return cthd;
+}
+Future<Invoice?> updateHD(int idHD, int trangthai, context) async {
+  var uri = uriBase + 'updateTrangThai';
+  Invoice invoice = Invoice(
+    id: 0,
+    iDKhachHang: 0,
+    trangThai: 0,
+    createdAt: "",
+  );
+  try {
+    final response = await http.post(Uri.parse(uri),
+        body: ({
+          "trangthai": trangthai.toString(),
+          "id": idHD.toString(),
+        }));
+    if (response.statusCode == 200) {
+      invoice = Invoice.fromJson(jsonDecode(response.body));
+      ScaffoldMessenger.of(context)
+      .showSnackBar(const SnackBar(content: Text('Hủy đơn hàng thành công')));
+
+      Navigator.pop(context,invoice);
+    }
+  } catch (_) {}
+  
+  
+  return invoice;
+
 }

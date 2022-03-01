@@ -251,6 +251,40 @@ class _MyChangeInfo extends State<changeinfoscreen> {
                   const SizedBox(
                     height: 20,
                   ),
+
+                  // Container(
+                  //   height: 40,
+                  //  //padding: EdgeInsets.only(top:4,),
+                  //    color: Colors.white,
+                  //   child: TextField(
+                  //     keyboardType: TextInputType.text,
+
+                  //     style: const TextStyle(color: Colors.black87),
+                  //     decoration: InputDecoration(
+                  //         border: InputBorder.none,
+                  //       //border: const OutlineInputBorder(),
+                  //       //labelText: 'Mật Khẩu',
+                  //       hintText: 'Mật Khẩu',
+                  //       hintStyle: const TextStyle(
+                  //         fontSize: 16,
+
+                  //       ),
+                  //       contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 6),
+                  //       suffixIcon: IconButton(
+                  //         icon: Icon(_secureText
+                  //             ? Icons.remove_red_eye
+                  //             : Icons.security),
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             _secureText = !_secureText;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     obscureText: _secureText,
+                  //   ),
+                  // ),
+
                 ],
               ),
             ),

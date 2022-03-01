@@ -12,9 +12,13 @@ class Typeprd extends StatelessWidget {
   final String imageUrl;
   final Size size;
   final User user;
+
+int dc;
   // ignore: prefer_const_constructors_in_immutables
   Typeprd(
       {Key? key,
+      required this.dc,
+
       required this.id,
       required this.user,
       required this.name,
@@ -31,6 +35,9 @@ class Typeprd extends StatelessWidget {
                 builder: (context) => ShowScreen(
                       idLoai: id,
                       user: user,
+
+                      dc: dc,
+
                     )));
       },
       child: Container(

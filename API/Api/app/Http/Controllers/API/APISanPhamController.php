@@ -26,9 +26,10 @@ class APISanPhamController extends Controller{
             return response()->json($dsSanPhamNoiBat,200);
           }else
           {
-            return response()->json($dsSanPhamNoiBat,405);
+            return response()->json($dsSanPhamNoiBat,204);
           }
-         
+
+
     }
     public function layChiTiet($id)
     {

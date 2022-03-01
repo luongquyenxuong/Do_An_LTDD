@@ -7,17 +7,22 @@ import '../../network/network_request.dart';
 // ignore: must_be_immutable
 class TypeProduct extends StatefulWidget {
   final User user;
-   TypeProduct({Key? key,required this.user}) : super(key: key);
+
+  int dc;
+   TypeProduct({Key? key,required this.user,required this.dc}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  _State createState() => _State(user);
+  _State createState() => _State(user,dc);
+
 }
 
 class _State extends State<TypeProduct> {
   final User user;
+  int dc;
 
-_State(this.user);
+_State(this.user,this.dc);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -53,6 +58,9 @@ _State(this.user);
                 itemBuilder: (ctx, i) => 
                      Typeprd(
                        user: user,
+
+                       dc: dc,
+
                       id:snapshot.data![i].iD!,
                       name: snapshot.data![i].tenLoaiSP!,
                       imageUrl: snapshot.data![i].hinhAnh!,

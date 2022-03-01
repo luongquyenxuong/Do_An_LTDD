@@ -4,6 +4,9 @@ import 'package:app_thoi_trang/models/cart.dart';
 import 'package:app_thoi_trang/models/db_helper.dart';
 import 'package:app_thoi_trang/models/user.dart';
 import 'package:app_thoi_trang/screens/cart/cart_screen.dart';
+
+import 'package:app_thoi_trang/screens/wdg/cart_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +20,13 @@ class ProductDetailScreen extends StatefulWidget {
   String? moTa;
   String? thongTin;
   final User user;
+
+  int? dc;
   ProductDetailScreen(
       {Key? key,
       required this.user,
+      this.dc,
+
       this.id,
       this.ten,
       this.gia,
@@ -39,7 +46,9 @@ class ProductDetailScreen extends StatefulWidget {
         this.gia,
         this.hinhAnh,
         this.moTa,
-        this.thongTin,
+
+        this.thongTin, this.dc,
+
       );
 }
 
@@ -50,12 +59,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? size;
   String? ten;
   int? gia;
+
+  int? dc;
+
   String? hinhAnh;
   String? moTa;
   String? thongTin;
   DBHelper? dbHelper = DBHelper();
   _ProductDetailScreenState(this.user, this.size, this.id, this.ten, this.gia,
-      this.hinhAnh, this.moTa, this.thongTin);
+
+      this.hinhAnh, this.moTa, this.thongTin,this.dc);
+
   void add() {
     setState(() {
       soluong++;
@@ -72,6 +86,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Thông tin sản phẩm'),
@@ -250,7 +265,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final sl = soluong;
+                    final total = sl * gia!;
+                    final check = await dbHelper!.isItem(id!);
+                    if (check == true) {
+                      dbHelper!.updateQuantityItem(id!,sl);
+                      cart.addTotalPrice(double.parse(total.toString()));
+                    } else {
+                      dbHelper!
+                        .insert(Cart(
+                        idSp: id,
+                        tenSp: ten,
+                        giabandau: gia,
+                        gia: total,
+                        hinhAnh: hinhAnh,
+                        soluong: sl,
+                        size: size,
+                      ))
+                          .then((value) {
+                        //  print('da them ');
+                        cart.addTotalPrice(double.parse(total.toString()));
+                        cart.addCounter();
+                      }).onError((error, stackTrace) {
+                        // print(error.toString());
+                      });
+                    }
+                  },
                   child: Container(
                     width: 200,
                     color: Colors.blue,
@@ -264,7 +305,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    int? sl = soluong;
+                    int? total = sl * gia!;
+                    final check = await dbHelper!.isItem(id!);
+                    if (check == true) {
+                      dbHelper!.updateQuantityItem(id!,sl);
+                      cart.addTotalPrice(double.parse(total.toString()));
+                    } else {
+                      dbHelper!
+                        .insert(Cart(
+                        idSp: id!,
+                        tenSp: ten!,
+                        giabandau: gia!,
+                        gia: total,
+                        hinhAnh: hinhAnh!,
+                        soluong: sl,
+                        size: size!,
+                      ))
+                          .then((value) {
+                        // print('da them ');
+                        cart.addTotalPrice(double.parse(total.toString()));
+                        cart.addCounter();
+                      }).onError((error, stackTrace) {
+                        //  print(error.toString());
+                      });
+                    }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CartScreen(user: user,dc: dc,)));
+                  },
                   child: Container(
                       width: 211.36,
                       color: Colors.red,

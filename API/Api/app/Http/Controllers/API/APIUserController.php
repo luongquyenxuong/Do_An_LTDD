@@ -93,6 +93,19 @@ class APIUserController extends Controller
     }
     public function editpassword(Request $request)
     {
+
+        // dd($request->all());
+        // $validated = $request->validate([
+        //     'fullname' => ['required', 'max:255'],
+        //     'email' => ['required', 'email'],
+        //     'password' => ['required'],
+        //     'phone' => ['required' ],
+
+        // ]);
+        // if ($request->hasFile('image')) {
+        //     $account->avatar = $request->file('image')->store('images/avatar/' . $account->id, 'public');
+        // }
+
         $user = User::where('id', $request['id'])->first();
         $user->fill([
             'password' => $request['password'],

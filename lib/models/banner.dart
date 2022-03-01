@@ -1,3 +1,4 @@
+
 // ignore: camel_case_types
 class banner {
   int? id;
@@ -16,4 +17,5 @@ class banner {
     data['Anh'] = anh;
     return data;
   }
+
 }
