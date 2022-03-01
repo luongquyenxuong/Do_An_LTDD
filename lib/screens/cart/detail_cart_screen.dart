@@ -155,9 +155,9 @@ class Detail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children: [
-                          const Text('Giá tiền:'),
-                          const Spacer(),
+                        children:const [
+                           Text('Giá tiền:'),
+                           Spacer(),
                          // Text('$pdcart\$')
                         ],
                       ),
@@ -169,13 +169,13 @@ class Detail extends StatelessWidget {
                         ],
                       ),
                       Row(
-                        children: [
-                          const Text(
+                        children:const [
+                           Text(
                             'Thành tiền :',
                             style: TextStyle(
                                 fontWeight: FontWeight.w800, color: Colors.red),
                           ),
-                          const Spacer(),
+                           Spacer(),
                           // Text((pdcart + ship1).toString() + '\$',
                           //     style: const TextStyle(
                           //         fontWeight: FontWeight.w800,

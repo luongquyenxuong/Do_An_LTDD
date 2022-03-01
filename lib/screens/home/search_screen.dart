@@ -1,18 +1,24 @@
 //import 'package:app_thoi_trang/screens/wdg/wdg_product_type.dart';
+import 'package:app_thoi_trang/models/user.dart';
 import 'package:flutter/material.dart';
 
 //import '../wdg/wdg_product.dart';
 import 'show_screen.dart';
 
+// ignore: must_be_immutable
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  final User user;
+  SearchScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  _SeachState createState() => _SeachState();
+  _SeachState createState() => _SeachState(user);
 }
 
 class _SeachState extends State<SearchScreen> {
+  final User user;
+  _SeachState(this.user);
+  var searchController = TextEditingController();
   List<Widget> listTab = [
     Row(children: const [
       Icon(
@@ -25,7 +31,20 @@ class _SeachState extends State<SearchScreen> {
     ]),
     Row(children: const [
       Icon(
-        Icons.all_inbox,
+        Icons.star,
+      ),
+      SizedBox(width: 5),
+      Text(
+        "Nổi bật",
+      )
+    ]),
+    Row(children: const [
+      // Icon(
+      //   Icons.all_inbox,
+      // ),
+      ImageIcon(
+        AssetImage("assets/img/icon/shirt.png"),
+       // color: Color(0xFF3A5A98),
       ),
       SizedBox(width: 5),
       Text(
@@ -33,26 +52,33 @@ class _SeachState extends State<SearchScreen> {
       )
     ]),
     Row(children: const [
-      Icon(
-        Icons.local_shipping,
+     
+       ImageIcon(
+        AssetImage("assets/img/icon/4639573.png"),
+       // color: Color(0xFF3A5A98),
       ),
+      
       SizedBox(width: 5),
       Text(
         "Áo khoác",
       )
     ]),
     Row(children: const [
-      Icon(
-        Icons.inbox,
+      ImageIcon(
+        AssetImage("assets/img/icon/5669434.png"),
+       // color: Color(0xFF3A5A98),
       ),
+      
       SizedBox(width: 5),
       Text(
         "Quần",
       )
     ]),
     Row(children: const [
-      Icon(
-        Icons.disabled_by_default,
+    
+     ImageIcon(
+        AssetImage("assets/img/icon/919275.png"),
+       // color: Color(0xFF3A5A98),
       ),
       SizedBox(width: 5),
       Text(
@@ -60,24 +86,29 @@ class _SeachState extends State<SearchScreen> {
       )
     ]),
     Row(children: const [
-      Icon(
-        Icons.disabled_by_default,
+       ImageIcon(
+        AssetImage("assets/img/icon/1030605.png"),
+       // color: Color(0xFF3A5A98),
       ),
+      
       SizedBox(width: 5),
       Text(
         "Dép",
       )
     ]),
     Row(children: const [
-      Icon(
-        Icons.disabled_by_default,
+       ImageIcon(
+        AssetImage("assets/img/icon/3612865.png"),
+       // color: Color(0xFF3A5A98),
       ),
+      
       SizedBox(width: 5),
       Text(
         "Phụ kiện",
       )
     ]),
   ];
+  var items = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +119,6 @@ class _SeachState extends State<SearchScreen> {
       },
       child: DefaultTabController(
         length: listTab.length,
-
         child: Scaffold(
             backgroundColor: const Color(0xffD9D9D9),
             appBar: AppBar(
@@ -113,6 +143,7 @@ class _SeachState extends State<SearchScreen> {
                         border: Border.all(color: Colors.black, width: 0.3),
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
+                      controller: searchController,
                       decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.search,
@@ -123,9 +154,7 @@ class _SeachState extends State<SearchScreen> {
                               Icons.clear,
                               color: Colors.black,
                             ),
-                            onPressed: () {
-                              /* Clear the search field */
-                            },
+                            onPressed: () {},
                           ),
                           hintText: 'Tìm kiếm...',
                           border: InputBorder.none),
@@ -145,15 +174,47 @@ class _SeachState extends State<SearchScreen> {
                 ),
               ),
             ),
-            body: const TabBarView(
+            body: TabBarView(
               children: [
-                AllProductView(),
-                TypeProductView(id: 1),
-                TypeProductView(id: 2),
-                TypeProductView(id: 3),
-                TypeProductView(id: 4),
-                TypeProductView(id: 5),
-                TypeProductView(id: 6),
+                // AllProductView(),
+                // AllProductHighlightView(id:0),
+                // TypeProductView(id: 1),
+                // TypeProductView(id: 2),
+                // TypeProductView(id: 3),
+                // TypeProductView(id: 4),
+                // TypeProductView(id: 5),
+                // TypeProductView(id: 6),
+                AllProductView(
+                  user: user,
+                ),
+                AllProductHighlightView(
+                  id: 0,
+                  user: user,
+                ),
+                TypeProductView(
+                  id: 1,
+                  user: user,
+                ),
+                TypeProductView(
+                  id: 2,
+                  user: user,
+                ),
+                TypeProductView(
+                  id: 3,
+                  user: user,
+                ),
+                TypeProductView(
+                  id: 4,
+                  user: user,
+                ),
+                TypeProductView(
+                  id: 5,
+                  user: user,
+                ),
+                TypeProductView(
+                  id: 6,
+                  user: user,
+                ),
               ],
             )),
       ),

@@ -1,4 +1,5 @@
 import 'package:app_thoi_trang/models/product.dart';
+import 'package:app_thoi_trang/models/user.dart';
 import 'package:app_thoi_trang/screens/home/produc_item.dart';
 import 'package:flutter/material.dart';
 import '../../network/network_request.dart';
@@ -6,28 +7,23 @@ import '../../network/network_request.dart';
 //import '../../models/product.dart';
 //import 'package:http/http.dart' as http;
 
+// ignore: must_be_immutable
 class AllProducts extends StatefulWidget {
-  const AllProducts({Key? key}) : super(key: key);
+  final User user;
+  int? dc;
+  AllProducts({Key? key, required this.user, this.dc}) : super(key: key);
 
   @override
-  State<AllProducts> createState() => _AllProductsState();
+  // ignore: no_logic_in_create_state
+  State<AllProducts> createState() => _AllProductsState(user);
 }
 
 class _AllProductsState extends State<AllProducts> {
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   fetchSanPham().then((dataformServer){
-  //     setState(() {
-  //       data=dataformServer;
-  //     });
-  //   } );
-  // }
+  final User user;
+  _AllProductsState(this.user);
 
   @override
   Widget build(BuildContext context) {
-    // final product = Provider.of<SanPham>(context);
-    // final pdts = product.toJson();
     return FutureBuilder<List<Product>>(
         future: apiListSanPham(),
         builder: (context, snapshot) {
@@ -39,13 +35,14 @@ class _AllProductsState extends State<AllProducts> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (ctx, i) => PdtItem(
-                      id: snapshot.data![i].iD!,
-                      size: snapshot.data![i].kichThuoc!,
-                      ten: snapshot.data![i].tenSp!,
-                      hinhAnh: snapshot.data![i].hinhAnh!,
-                      gia: snapshot.data![i].gia!,
-                      moTa: snapshot.data![i].mota!,
-                      thongTin:  snapshot.data![i].thongTin!,
+                      user: user,
+                      id: snapshot.data?[i].iD,
+                      size: snapshot.data?[i].kichThuoc,
+                      ten: snapshot.data?[i].tenSp,
+                      hinhAnh: snapshot.data?[i].hinhAnh,
+                      gia: snapshot.data?[i].gia,
+                      moTa: snapshot.data?[i].mota,
+                      thongTin: snapshot.data?[i].thongTin,
                     ));
           }
           return Container();

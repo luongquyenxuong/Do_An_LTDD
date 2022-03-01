@@ -21,6 +21,7 @@ class SanPham extends Migration
             $table->integer('Gia');
             $table->string('HinhAnh');
             $table->string('KichThuoc');
+            $table->integer('NoiBat');
             $table->string('MauSac');
             $table->text('MoTa');
             $table->text('ThongTin');

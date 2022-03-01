@@ -32,16 +32,16 @@ class User {
         admin: json['Admin'],
       );
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['HoTen'] = this.hoTen;
-    data['GioiTinh'] = this.gioiTinh;
-    data['NgaySinh'] = this.ngaySinh;
-    data['SDT'] = this.sDT;
-    data['Avatar'] = this.avatar;
-    data['Admin'] = this.admin;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['password'] = password;
+    data['HoTen'] = hoTen;
+    data['GioiTinh'] = gioiTinh;
+    data['NgaySinh'] = ngaySinh;
+    data['SDT'] = sDT;
+    data['Avatar'] = avatar;
+    data['Admin'] = admin;
     return data;
   }
 }
