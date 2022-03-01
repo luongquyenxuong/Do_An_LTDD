@@ -28,7 +28,10 @@ class WelcomeScreen extends State<Welcome>{
             //       fontSize: 35,  
             // ),),
             const SizedBox(height: 70,),
-            ElevatedButton(
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: ElevatedButton(
+              
               onPressed:() {
                 Navigator.restorablePopAndPushNamed(context, '/dangnhap');},
               child:const Text("Đăng nhập"),
@@ -39,6 +42,7 @@ class WelcomeScreen extends State<Welcome>{
                     borderRadius: BorderRadius.circular(10),),
                ), 
              ),
+            ),
              ElevatedButton(
               onPressed:() {
                 Navigator.pushNamed(context, '/dangky');},

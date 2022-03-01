@@ -22,16 +22,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('san-pham',[APISanPhamController::class,'layDanhSach']);
+Route::get('san-pham/{ID}',[APISanPhamController::class,'layChiTiet']);
+Route::get('san-pham/noi-bat/{NoiBat}',[APISanPhamController::class,'layDanhSachNoiBat']);
+Route::get('sp-loai/{id}',[APISanPhamController::class,'layDanhSachLoaiSP']);
 Route::get('user',[APIUserController::class,'layDanhSach']);
 Route::get('user/{ID}',[APIUserController::class,'layChiTiet']);
-Route::get('dia-chi',[APIDiaChiController::class,'layDiaChi']);
 Route::get('loai',[APILoaiSanPhamController::class,'layDanhSachLoai']);
-Route::get('san-pham/{ID}',[APISanPhamController::class,'layChiTiet']);
-Route::get('sp-loai/{id}',[APISanPhamController::class,'layDanhSachLoaiSP']);
-Route::get('dia-chi/{ID}',[APIDiaChiController::class,'layChiTietDiaChi']);
-
+Route::post('dangky',[APIUserController::class,'register']);
+Route::get('banner',[APISanPhamController::class,'layBanner']);
 Route::post('login',[APIUserController::class,'apiLogin']);
-
+Route::post('update', [APIUserController::class, 'edituser']);
+Route::post('updatepassword', [APIUserController::class, 'editpassword']);
 
 
 

@@ -1,44 +1,61 @@
-//import 'package:app_thoi_trang/models/san_pham.dart';
-//import 'package:app_thoi_trang/models/san_pham.dart';
-//import 'package:app_thoi_trang/network/network_request.dart';
-//import 'package:app_thoi_trang/screens/wdg/wdg_product_deltail.dart';
-//import 'package:flutter/gestures.dart';
 // ignore_for_file: unnecessary_this
 
+import 'package:app_thoi_trang/models/cart.dart';
+import 'package:app_thoi_trang/models/db_helper.dart';
+import 'package:app_thoi_trang/models/user.dart';
+import 'package:app_thoi_trang/screens/cart/cart_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ProductDetailScreen extends StatefulWidget {
-   String? ten;
-   int? gia;
-   String? hinhAnh;
-   String? moTa;
-   String? thongTin;
-
-   ProductDetailScreen(
+  int? id;
+  String? ten;
+  String? size;
+  int? gia;
+  String? hinhAnh;
+  String? moTa;
+  String? thongTin;
+  final User user;
+  ProductDetailScreen(
       {Key? key,
-       this.ten,
-       this.gia,
-       this.hinhAnh,
-       this.moTa,
-       this.thongTin})
+      required this.user,
+      this.id,
+      this.ten,
+      this.gia,
+      this.size,
+      this.hinhAnh,
+      this.moTa,
+      this.thongTin})
       : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
   _ProductDetailScreenState createState() => _ProductDetailScreenState(
-      this.ten, this.gia, this.hinhAnh, this.moTa, this.thongTin);
+        this.user,
+        this.size,
+        this.id,
+        this.ten,
+        this.gia,
+        this.hinhAnh,
+        this.moTa,
+        this.thongTin,
+      );
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int soluong = 1;
-  final String? ten;
-  final int? gia;
-  final String? hinhAnh;
-  final String? moTa;
-  final String? thongTin;
-
-  _ProductDetailScreenState(
-      this.ten, this.gia, this.hinhAnh, this.moTa, this.thongTin);
+  int? id;
+  final User user;
+  String? size;
+  String? ten;
+  int? gia;
+  String? hinhAnh;
+  String? moTa;
+  String? thongTin;
+  DBHelper? dbHelper = DBHelper();
+  _ProductDetailScreenState(this.user, this.size, this.id, this.ten, this.gia,
+      this.hinhAnh, this.moTa, this.thongTin);
   void add() {
     setState(() {
       soluong++;
@@ -184,7 +201,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              moTa!,
+              moTa ?? "",
               style: const TextStyle(),
             ),
           ),
@@ -198,31 +215,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              thongTin!,
+              thongTin ?? "",
               style: const TextStyle(),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: Row(children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Đánh giá sản phẩm',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-              ),
-              const Text('(Có 10 đánh giá)'),
-              const Spacer(),
-              Text(
-                'Xem tất cả',
-                style: TextStyle(
-                    color: Colors.orange[800], fontWeight: FontWeight.w700),
-              ),
-              Icon(Icons.keyboard_arrow_right,
-                  size: 30, color: Colors.orange[800]),
-            ]),
-          ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: Row(children: [
+          //     const Padding(
+          //       padding: EdgeInsets.all(8.0),
+          //       child: Text(
+          //         'Đánh giá sản phẩm',
+          //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          //       ),
+          //     ),
+          //     const Text('(Có 10 đánh giá)'),
+          //     const Spacer(),
+          //     Text(
+          //       'Xem tất cả',
+          //       style: TextStyle(
+          //           color: Colors.orange[800], fontWeight: FontWeight.w700),
+          //     ),
+          //     Icon(Icons.keyboard_arrow_right,
+          //         size: 30, color: Colors.orange[800]),
+          //   ]),
+          // ),
           const SizedBox(
             height: 30,
           )
@@ -249,10 +266,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 InkWell(
                   onTap: () {},
                   child: Container(
-                    
                       width: 211.36,
                       color: Colors.red,
-                      child:const Center(child: Text('Mua ngay'))),
+                      child: const Center(child: Text('Mua ngay'))),
                 ),
               ],
             ),
