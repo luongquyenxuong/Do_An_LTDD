@@ -12,13 +12,11 @@ class Typeprd extends StatelessWidget {
   final String imageUrl;
   final Size size;
   final User user;
-
-int dc;
+      int? dc;
   // ignore: prefer_const_constructors_in_immutables
   Typeprd(
       {Key? key,
-      required this.dc,
-
+       this.dc,
       required this.id,
       required this.user,
       required this.name,
@@ -28,17 +26,17 @@ int dc;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
+      onTap: ()async {
+        final result=await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ShowScreen(
                       idLoai: id,
                       user: user,
-
                       dc: dc,
-
                     )));
+            dc=result;
+            print(dc);
       },
       child: Container(
         margin: const EdgeInsets.only(

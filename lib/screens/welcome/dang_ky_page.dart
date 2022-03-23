@@ -200,7 +200,7 @@ class _State extends State<dangkyscreen> {
                           return "Vui lòng nhập họ tên !";
                         }
 
-                        if (!RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                        if (!RegExp(r'^[a-z A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$').hasMatch(value)) {
                           //allow upper and lower case alphabets and space
                           return "Họ và tên không đúng !";
                         } else {
@@ -223,48 +223,46 @@ class _State extends State<dangkyscreen> {
                   ),
                   Container(
                     width: 310,
-                    height: 40,
+                    height: 45,
                     decoration: BoxDecoration(
-
                         color: Colors.white,
                         border: Border.all(width: 1, color: Colors.black54),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4))),
-                    // padding:
-                    //     const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      child: DropdownButtonFormField<String>(
-                        // icon: Icon(Icons.money_off_csred_sharp,) ,
-                        value: value,
-                        //isExpanded: true,
-                        //iconSize: 30,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          //labelText: 'Giới Tính',
-                          hintText: 'Giới tính',
-                          prefixIcon: Icon(
-                            Icons.wc,
-                            color: Color(0xff2D3132),
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 16,
-                          ),
-                          //contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical:6),
+                    child: DropdownButtonFormField<String>(
+                      // validator:(value){
+                      //   if(value==null){ 
+                      //     return "Vui lòng chọn giới tính";
+                      //   }
+                      // },
+                      // icon: Icon(Icons.money_off_csred_sharp,) ,
+                      value: value,
+                      //isExpanded: true,
+                      //iconSize: 30,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        //labelText: 'Giới Tính',
+                        hintText: 'Giới tính',
+                        prefixIcon: Icon(
+                          Icons.wc,
+                          color: Color(0xff2D3132),
                         ),
-                        items: items.map(buildMenuItem).toList(),
-                        onChanged: (value) => setState(() {
-                          this.value = value;
-                          if (value == "Nam") {
-                            sex = 1;
-                            //  print(sex) ;
-                          } else {
-                            sex = 2;
-                            // print(sex);
-                          }
-                        }),
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                        ),
+                        //contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical:6),
                       ),
+                      items: items.map(buildMenuItem).toList(),
+                      onChanged: (value) => setState(() {
+                        this.value = value;
+                        if (value == "Nam") {
+                          sex = 1;
+                          //  print(sex) ;
+                        } else {
+                          sex = 2;
+                          // print(sex);
+                        }
+                      }),
                     ),
                   ),
                   Container(

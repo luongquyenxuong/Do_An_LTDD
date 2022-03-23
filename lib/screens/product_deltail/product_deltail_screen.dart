@@ -26,7 +26,6 @@ class ProductDetailScreen extends StatefulWidget {
       {Key? key,
       required this.user,
       this.dc,
-
       this.id,
       this.ten,
       this.gia,
@@ -46,9 +45,8 @@ class ProductDetailScreen extends StatefulWidget {
         this.gia,
         this.hinhAnh,
         this.moTa,
-
-        this.thongTin, this.dc,
-
+        this.thongTin,
+        this.dc,
       );
 }
 
@@ -67,8 +65,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? thongTin;
   DBHelper? dbHelper = DBHelper();
   _ProductDetailScreenState(this.user, this.size, this.id, this.ten, this.gia,
-
-      this.hinhAnh, this.moTa, this.thongTin,this.dc);
+      this.hinhAnh, this.moTa, this.thongTin, this.dc);
 
   void add() {
     setState(() {
@@ -95,7 +92,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           iconTheme: const IconThemeData(color: Colors.white),
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context,dc);
               },
               icon: const Icon(Icons.arrow_back_ios)),
         ),
@@ -270,11 +267,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     final total = sl * gia!;
                     final check = await dbHelper!.isItem(id!);
                     if (check == true) {
-                      dbHelper!.updateQuantityItem(id!,sl);
+                      dbHelper!.updateQuantityItem(id!, sl);
                       cart.addTotalPrice(double.parse(total.toString()));
                     } else {
                       dbHelper!
-                        .insert(Cart(
+                          .insert(Cart(
                         idSp: id,
                         tenSp: ten,
                         giabandau: gia,
@@ -310,11 +307,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     int? total = sl * gia!;
                     final check = await dbHelper!.isItem(id!);
                     if (check == true) {
-                      dbHelper!.updateQuantityItem(id!,sl);
+                      dbHelper!.updateQuantityItem(id!, sl);
                       cart.addTotalPrice(double.parse(total.toString()));
                     } else {
                       dbHelper!
-                        .insert(Cart(
+                          .insert(Cart(
                         idSp: id!,
                         tenSp: ten!,
                         giabandau: gia!,
@@ -331,10 +328,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         //  print(error.toString());
                       });
                     }
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CartScreen(user: user,dc: dc,)));
+                    final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CartScreen(
+                                  user: user,
+                                  dc: dc,
+                                )));
+                    setState(() {
+                     
+                      //idDC=result;
+                      dc = result; 
+                      print(dc);
+                    });
                   },
                   child: Container(
                       width: 211.36,

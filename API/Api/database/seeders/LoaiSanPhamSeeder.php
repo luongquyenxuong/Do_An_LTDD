@@ -45,11 +45,6 @@ class LoaiSanPhamSeeder extends Seeder
                 'TrangThai'=>1,
             ]
         ],
-       
-        
-       
-        
-       
     );
     }
 }

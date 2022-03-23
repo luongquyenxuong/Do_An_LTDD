@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class DiaChi extends Model
 {
     use HasFactory;
-   // use SoftDeletes;
+    use SoftDeletes;
 
 
     protected $guarded=[];
@@ -21,4 +22,5 @@ class DiaChi extends Model
     {
         return $this->hasMany(ChiTietHoaDon::class,'IDDiaChi');
     }
+    
 }

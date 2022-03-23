@@ -13,12 +13,14 @@ class AllProductsType extends StatefulWidget {
   final int idLoaiSp;
 
   int? dc;
-   AllProductsType({Key? key, required this.idLoaiSp,required this.user,this.dc}) : super(key: key);
+  AllProductsType(
+      {Key? key, required this.idLoaiSp, required this.user, this.dc})
+      : super(key: key);
 
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  State<AllProductsType> createState() => _AllProductsTypeState(this.idLoaiSp,this.user,dc);
-
+  State<AllProductsType> createState() =>
+      _AllProductsTypeState(this.idLoaiSp, this.user, dc);
 }
 
 class _AllProductsTypeState extends State<AllProductsType> {
@@ -26,7 +28,7 @@ class _AllProductsTypeState extends State<AllProductsType> {
 
   int? dc;
   final int idLoaiSp;
-  _AllProductsTypeState(this.idLoaiSp,this.user,this.dc);
+  _AllProductsTypeState(this.idLoaiSp, this.user, this.dc);
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +42,9 @@ class _AllProductsTypeState extends State<AllProductsType> {
                 itemCount: snapshot.data?.length ?? 0,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
-                itemBuilder: (ctx, i) => PdtItem(  
-                  user: user,
-
-                  dc: dc,
-
+                itemBuilder: (ctx, i) => PdtItem(
+                      user: user,
+                      dc: dc,
                       size: snapshot.data![i].kichThuoc!,
                       id: snapshot.data![i].iD!,
                       ten: snapshot.data![i].tenSp!,

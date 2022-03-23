@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class APILoaiSanPhamController extends Controller{
     public function layDanhSachLoai(){
-        $dsLoai=LoaiSanPHam::all();
+        $dsLoai=LoaiSanPham::all();
         return response()->json($dsLoai,200);
     }
 }

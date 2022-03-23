@@ -13,22 +13,26 @@ import 'package:flutter/material.dart';
 class AddressUserScreen extends StatefulWidget {
   User user;
   bool check;
-  int dc;
-  AddressUserScreen({Key? key, required this.user,required this.check,required this.dc}) : super(key: key);
+  int? dc;
+  AddressUserScreen(
+      {Key? key, required this.user, required this.check,  this.dc})
+      : super(key: key);
   @override
   // ignore: unnecessary_this, no_logic_in_create_state
-  _MyAddressUser createState() => _MyAddressUser(this.user,this.check,this.dc);
+  _MyAddressUser createState() =>
+      _MyAddressUser(this.user, this.check, this.dc);
 }
 
 class _MyAddressUser extends State<AddressUserScreen> {
   User? user;
   bool check;
-  int dc;
+  int? dc;
   Address? address;
-onGoBack(dynamic value) {
+  onGoBack(dynamic value) {
     setState(() {});
   }
-  _MyAddressUser(this.user,this.check,this.dc);
+
+  _MyAddressUser(this.user, this.check, this.dc);
 
   int? idDC;
   @override
@@ -41,7 +45,7 @@ onGoBack(dynamic value) {
         backgroundColor: const Color(0xffD9D9D9),
         appBar: AppBar(
           centerTitle: true,
-          title:const Text(
+          title: const Text(
             'Địa Chỉ',
             style: TextStyle(
               color: Colors.black,
@@ -50,7 +54,7 @@ onGoBack(dynamic value) {
           ),
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context,dc);
+                Navigator.pop(context, dc);
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -70,11 +74,8 @@ onGoBack(dynamic value) {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Column(
             children: <Widget>[
-
-              
               FutureBuilder<List<Address>?>(
                 future: apidsDiaChiKH(user?.id),
-
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
@@ -82,13 +83,11 @@ onGoBack(dynamic value) {
                       shrinkWrap: true,
                       itemCount: snapshot.data?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
-
                         return InkWell(
                           onTap: () {
-                            dc = snapshot.data![index].id!; 
-                                        
+                            dc = snapshot.data![index].id!;
                             print(dc);
-                            if(check==true){
+                            if (check == true) {
                               Navigator.pop(context,dc);
                             }
                           },
@@ -129,14 +128,37 @@ onGoBack(dynamic value) {
                                           color: Colors.black, fontSize: 13)),
                                 ])),
                                 const Spacer(),
-                                InkWell(
-                                  onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeAddressScreen(address:snapshot.data![index]))).then(onGoBack);
-                                  },
-                                  child: const Text('Sửa'))
+                                Column(
+                                  children: [
+                                    InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ChangeAddressScreen(
+                                                              address: snapshot
+                                                                      .data![
+                                                                  index])))
+                                              .then(onGoBack);
+                                        },
+                                        child: const Text('Sửa')),
+                                       const SizedBox(height:20),
+                                    InkWell(
+                                        onTap: () async{
+                                          
+                                          dc = snapshot.data![index].id!;
+                                          print(dc);
+                                          await xoaDiaChi(dc);
+                                          setState(() {
+                                          
+                                          });
+                                        },
+                                        child: const Text('Xóa'))
+                                  ],
+                                )
                               ],
                             ),
-
                           ),
                         );
                       },
@@ -147,9 +169,12 @@ onGoBack(dynamic value) {
               ),
               InkWell(
                 onTap: () {
-
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressScreen(idKhachHang:user!.id!))).then(onGoBack);
-
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AddressScreen(idKhachHang: user!.id!)))
+                      .then(onGoBack);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),

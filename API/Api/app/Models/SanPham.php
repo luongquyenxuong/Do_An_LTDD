@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\LoaiSanPham;
-use App\Models\NhaPhanPhoi;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

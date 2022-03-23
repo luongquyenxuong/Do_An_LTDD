@@ -1,6 +1,6 @@
 import 'package:app_thoi_trang/models/cart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import '../cart/product_cart.dart';
 
 class CartItem extends StatefulWidget {

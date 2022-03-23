@@ -23,7 +23,8 @@ import '../models/address_user.dart';
 import '../models/banner.dart';
 import '../models/loai_san_pham.dart';
 import '../models/product.dart';
-String uriBase = "http://localhost:8000/api/";
+
+String uriBase = "http://10.0.2.2:8000/api/";
 
 Future<List<Product>> apiListSanPham() async {
   var uri = uriBase + 'san-pham';
@@ -63,10 +64,6 @@ Future<List<Product>> apiListLoaiSanpham(int idLoai) async {
   } catch (_) {}
   return dsSanPhamLoai;
 }
-
-
-
-
 
 Future<List<Product>> apiListSanphamNoiBat(int noibat) async {
   var uri = uriBase + 'san-pham/noi-bat/$noibat';
@@ -117,19 +114,27 @@ Future<Address?> apiDiaChi(int id) async {
   } catch (_) {}
 }
 
+Future<bool> xoaDiaChi(int? id) async {
+  var uri = uriBase + 'dia-chi/delete/$id';
+  try {
+    final response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      return true;
+    }
+  } catch (_) {}
+  return false;
+}
 
-Future<Address?> apiDiaChiKH(int id, int idKH) async {
+Future<Address?> apiDiaChiKH(int? id, int idKH) async {
   var uri = uriBase + 'dia-chi/khach-hang/id/$id/idKhachHang/$idKH';
   try {
     final response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
       Address dc = Address.fromJson((jsonDecode(response.body)));
       return dc;
-
     }
   } catch (_) {}
 }
-
 
 Future<Address?> apiDiaChiDauKH(int idKH) async {
   var uri = uriBase + 'dia-chi-dau/khach-hang/$idKH';
@@ -182,7 +187,8 @@ Future<bool> insertDiaChi(int idKhachHang, String ten, String tenduong,
   }
   return false;
 }
-Future<bool> updateDiaChi(int id,int idKhachHang, String ten, String tenduong,
+
+Future<bool> updateDiaChi(int id, int idKhachHang, String ten, String tenduong,
     String phuong, String quan, String thanhpho, String sdt, context) async {
   if (idKhachHang != null &&
       ten.isNotEmpty &&
@@ -193,7 +199,7 @@ Future<bool> updateDiaChi(int id,int idKhachHang, String ten, String tenduong,
       sdt.isNotEmpty) {
     final response = await http.post(Uri.parse(uriBase + "updateDiaChi"),
         body: ({
-          "id":id.toString(),
+          "id": id.toString(),
           "idkhachhang": idKhachHang.toString(),
           "sdt": sdt,
           "ten": ten,
@@ -223,8 +229,8 @@ Future<bool> updateDiaChi(int id,int idKhachHang, String ten, String tenduong,
   }
   return false;
 }
-Future<List<Address>?> apidsDiaChiKH(int? idKH) async {
 
+Future<List<Address>?> apidsDiaChiKH(int? idKH) async {
   var uri = uriBase + 'dia-chi/ds-khach-hang/$idKH';
   List<Address> dsDCKH = [];
   try {
@@ -270,9 +276,7 @@ Future<User> login(String email, String password, context) async {
           MaterialPageRoute(
               builder: (context) => HomeScreen(
                     user: result,
-
-                    dc: dc?.id ?? 0,
-
+                   // dc: dc?.id ?? 0,
                   )),
           (route) => false);
     } else {
@@ -297,8 +301,6 @@ Future<User> login(String email, String password, context) async {
   }
   return result;
 }
-
-
 
 Future<User> register(String email, String password, String hoten, String phone,
     int sex, context) async {
@@ -449,11 +451,10 @@ Future<User> updatePassword(int id, String password, context) async {
         const SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin")));
   }
   return result;
-
 }
 
 Future<bool> checkout(
-    int idKH, int thanhtien, int trangthai, int idDC, context) async {
+    int idKH, int thanhtien, int trangthai, int? idDC, context) async {
   // Invoice result = Invoice(
   //   id: 0,
   //   iDKhachHang: 0,
@@ -567,6 +568,7 @@ Future<List<CTHD>> cthd(int idHD) async {
   } catch (_) {}
   return cthd;
 }
+
 Future<Invoice?> updateHD(int idHD, int trangthai, context) async {
   var uri = uriBase + 'updateTrangThai';
   Invoice invoice = Invoice(
@@ -583,14 +585,12 @@ Future<Invoice?> updateHD(int idHD, int trangthai, context) async {
         }));
     if (response.statusCode == 200) {
       invoice = Invoice.fromJson(jsonDecode(response.body));
-      ScaffoldMessenger.of(context)
-      .showSnackBar(const SnackBar(content: Text('Hủy đơn hàng thành công')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Hủy đơn hàng thành công')));
 
-      Navigator.pop(context,invoice);
+      Navigator.pop(context, invoice);
     }
   } catch (_) {}
-  
-  
-  return invoice;
 
+  return invoice;
 }

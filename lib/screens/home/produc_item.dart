@@ -33,25 +33,22 @@ class PdtItem extends StatelessWidget {
       this.size,
       this.gia,
       this.moTa,
-
       this.thongTin,this.dc})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
-
-
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       splashColor: const Color(0xff202d59),
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        final result= await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ProductDetailScreen(
                       size: size,
                       user: user,
-
+                      dc: dc,
                       id: id,
                       ten: ten,
                       hinhAnh: hinhAnh,
@@ -59,6 +56,7 @@ class PdtItem extends StatelessWidget {
                       moTa: moTa,
                       gia: gia,
                     )));
+        dc=result;
       },
       child: Container(
         margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -77,7 +75,7 @@ class PdtItem extends StatelessWidget {
           //           ),
           footer: GridTileBar(
             title: Text(
-              ten!,
+              "$dc"+ten!,
               style: const TextStyle(color: Colors.white),
             ),
             trailing: IconButton(

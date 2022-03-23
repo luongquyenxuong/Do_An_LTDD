@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:app_thoi_trang/models/user.dart';
 import 'package:app_thoi_trang/screens/wdg/wdg_product.dart';
 import 'package:app_thoi_trang/screens/wdg/wdg_product_highlights.dart';
@@ -18,12 +20,12 @@ class ShowScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  // ignore: unnecessary_this, no_logic_in_create_state
+  // ignore: , no_logic_in_create_state
 
+  // ignore: no_logic_in_create_state
   _ShowState createState() => _ShowState(this.idLoai, this.user,dc);
 
 }
-
 class _ShowState extends State<ShowScreen> with TickerProviderStateMixin {
   final User user;
   late int idLoai;
@@ -211,7 +213,7 @@ int? dc;
             //iconTheme:const IconThemeData(color: Colors.red),
             leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context,dc);
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -224,7 +226,6 @@ int? dc;
           children: [
             AllProductView(
               user: user,
-
               dc: dc,
             ),
             AllProductHighlightView(
@@ -234,7 +235,6 @@ int? dc;
             ),
             TypeProductView(
               dc: dc,
-
               id: 1,
               user: user,
             ),
@@ -246,16 +246,12 @@ int? dc;
             ),
             TypeProductView(
               id: 3,
-
               dc: dc,
-
               user: user,
             ),
             TypeProductView(
               id: 4,
-
               dc: dc,
-
               user: user,
             ),
             TypeProductView(
@@ -303,9 +299,7 @@ class TypeProductView extends StatelessWidget {
         AllProductsType(
           idLoaiSp: id,
           user: user,
-
           dc:dc,
-
         ),
         const SizedBox(height: 50),
       ],
@@ -346,9 +340,7 @@ class AllProductHighlightView extends StatelessWidget {
     return ListView(
       children: [
         const SizedBox(height: 10),
-
         AllProductsHighlight(user: user,dc: dc,),
-
         const SizedBox(height: 50),
       ],
     );

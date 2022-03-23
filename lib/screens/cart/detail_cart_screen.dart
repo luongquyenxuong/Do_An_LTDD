@@ -90,7 +90,7 @@ class _DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    //double _width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: const Color(0xffD9D9D9),
         appBar: AppBar(
@@ -264,7 +264,7 @@ class _DetailState extends State<Detail> {
                       ),
                       Row(
                         children: [
-                           Text(
+                           const Text(
                             'Thành tiền :',
                             style: TextStyle(
                                 fontWeight: FontWeight.w800, color: Colors.red),

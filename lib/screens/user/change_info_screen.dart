@@ -133,7 +133,7 @@ class _MyChangeInfo extends State<changeinfoscreen> {
                               return "Vui lòng nhập họ tên !";
                             }
 
-                            if (!RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                            if (!RegExp(r'^[a-z A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$').hasMatch(value)) {
                               //allow upper and lower case alphabets and space
                               return "Họ và tên không đúng !";
                             } else {

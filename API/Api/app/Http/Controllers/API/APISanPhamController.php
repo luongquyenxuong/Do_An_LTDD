@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\SanPham;
-use App\Models\LoaiSanPham;
+
 use App\Models\Banner;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

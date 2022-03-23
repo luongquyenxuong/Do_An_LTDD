@@ -190,34 +190,42 @@ class _SeachState extends State<SearchScreen> {
                 // TypeProductView(id: 6),
                 AllProductView(
                   user: user,
+                    dc: dc,
                 ),
                 AllProductHighlightView(
                   id: 0,
+                    dc: dc,
                   user: user,
                 ),
                 TypeProductView(
                   id: 1,
+                  dc: dc,
                   user: user,
                 ),
                 TypeProductView(
                   id: 2,
                   user: user,
+                    dc: dc,
                 ),
                 TypeProductView(
                   id: 3,
+                    dc: dc,
                   user: user,
                 ),
                 TypeProductView(
                   id: 4,
                   user: user,
+                    dc: dc,
                 ),
                 TypeProductView(
                   id: 5,
                   user: user,
+                    dc: dc,
                 ),
                 TypeProductView(
                   id: 6,
                   user: user,
+                    dc: dc,
                 ),
               ],
             )),

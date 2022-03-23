@@ -3793,9 +3793,11 @@ textarea.form-control-lg {
     pointer-events: none;
     -webkit-filter: none;
     filter: none;
-    opacity: 0.5; }
+    opacity: 0.5;
+}
   .form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
-    opacity: 0.5; }
+    opacity: 0.5;
+ }
 
 .form-switch {
   padding-left: 2.5em; }
@@ -13120,9 +13122,12 @@ code {
       -webkit-transform: scale(1);
       transform: scale(1); }
     .form-check .form-check-label input[type="checkbox"]:disabled + .input-helper:before {
-      border-color: #ebedf2; }
+      /* border-color: #ebedf2; */
+      border-color: #b66dff;
+    }
     .form-check .form-check-label input[type="checkbox"]:disabled:checked + .input-helper:after {
-      background: #ebedf2;
+     /* background: #ebedf2; */
+      background: #b66dff;
       color: #ffffff; }
     .form-check .form-check-label input[type="radio"] + .input-helper:before {
       position: absolute;
@@ -13174,11 +13179,14 @@ code {
       -webkit-transform: scale(1);
       transform: scale(1); }
     .form-check .form-check-label input[type="radio"]:disabled + .input-helper:before {
-      border-color: #ebedf2; }
+      border-color: #ebedf2;
+    }
     .form-check .form-check-label input[type="radio"]:disabled:checked + .input-helper:before {
-      background: #ebedf2; }
+      background: #ebedf2;
+    }
     .form-check .form-check-label input[type="radio"]:disabled:checked + .input-helper:after {
-      background: #ffffff; }
+      background: #ffffff;
+    }
 
 .form-check-primary.form-check label input[type="checkbox"] + .input-helper:before,
 .form-check-primary.form-check label input[type="radio"] + .input-helper:before {
@@ -14247,7 +14255,7 @@ dl {
           height: auto;
           border-top: 0; }
           .sidebar .nav.sub-menu .nav-item .nav-link:before {
-            content: "\F054";
+            /* content: "\F054"; */
             font-family: "Material Design Icons";
             display: block;
             position: absolute;

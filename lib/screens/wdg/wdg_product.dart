@@ -40,9 +40,7 @@ class _AllProductsState extends State<AllProducts> {
                     crossAxisCount: 2),
                 itemBuilder: (ctx, i) => PdtItem(
                       user: user,
-
                       dc: dc,
-
                       id: snapshot.data?[i].iD,
                       size: snapshot.data?[i].kichThuoc,
                       ten: snapshot.data?[i].tenSp,

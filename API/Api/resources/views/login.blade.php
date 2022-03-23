@@ -1,4 +1,5 @@
-<html lang="en"><head>
+<html lang="en">
+    <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -34,7 +35,7 @@
                   @if($errors->has('email')){{ $errors->first('email') }}<br>@endif
                  <div class="form-group">
                     <input name="email" type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
-                  </div> 
+                  </div>
                   @if($errors->has('password')){{ $errors->first('password') }}<br>@endif
                   <div class="form-group">
                     <input name="password" type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
@@ -75,5 +76,5 @@
     <script src="../../assets/js/hoverable-collapse.js"></script>
     <script src="../../assets/js/misc.js"></script>
     <!-- endinject -->
-  
+
 </body></html>

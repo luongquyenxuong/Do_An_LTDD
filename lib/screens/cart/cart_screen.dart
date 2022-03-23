@@ -30,14 +30,17 @@ class _CartScreenState extends State<CartScreen> {
   //late int idDC = user!.id!;
   int? dc;
   DBHelper? dbHelper = DBHelper();
-
   _CartScreenState(this.user, this.dc);
-
+ bool? checkdc;
   // late int? iddc = dc;
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-
+    if(dc==null){
+      checkdc=false;
+    }else{
+      checkdc=true;
+    }
     return Scaffold(
         backgroundColor: const Color(0xffD9D9D9),
         appBar: AppBar(
@@ -49,7 +52,7 @@ class _CartScreenState extends State<CartScreen> {
           // ),
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context,dc);
               },
               icon: const Icon(Icons.arrow_back_ios)),
         ),
@@ -58,124 +61,240 @@ class _CartScreenState extends State<CartScreen> {
             const SizedBox(
               height: 10,
             ),
-
-            FutureBuilder<Address?>(
-              future: apiDiaChiKH(dc!, user!.id!),
-              builder: (context, snapshot) {
-                bool check;
-                if (snapshot.hasData) {
-                  if (snapshot.data?.id == null) {
-                    check = false;
-                  } else {
-                    check = true;
-                  }
-                  return Visibility(
-                    visible: check,
-                    replacement: InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressUserScreen(user: user!, check: check, dc: dc!)));
-                      },
-
+            Visibility(
+              visible: checkdc!,
+              replacement:FutureBuilder<Address?>(
+                future: apiDiaChiDauKH(user!.id!),
+                builder: (context, snapshot) {
+                  bool check;
+                  if (snapshot.hasData) {
+                    if (snapshot.data?.id == null) {
+                      check = false;
+                    } else {
+                      check = true;
+                    }
+                    return Visibility(
+                      visible: check,
+                      replacement: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressUserScreen(user: user!, check: check, dc: dc!)));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          color: Colors.white,
+                          child: Row(
+                            children: const <Widget>[
+                              Text(
+                                'Thêm địa chỉ mới',
+                                style:
+                                    TextStyle(color: Colors.black, fontSize: 15),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.add,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+            
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.only(top: 15),
+                        height: 130,
                         color: Colors.white,
-                        child: Row(
-                          children: const <Widget>[
-                            Text(
-                              'Thêm địa chỉ mới',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.add,
-                              color: Colors.black,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 15),
-                      height: 130,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 1),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Icon(
-                              Icons.room,
-                              color: Colors.red,
-                              size: 30,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                                width: 215,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Địa chỉ nhận hàng\n',
-                                      style: TextStyle(
-                                          color: Color(0xff000000),
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    Text(
-                                      snapshot.data?.hoTen ?? "",
-                                      style: const TextStyle(
-                                          color: Color(0xff000000),
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      snapshot.data?.sDT ?? "",
-                                      style: const TextStyle(
-                                          color: Color(0xff000000),
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Flexible(
-                                      child: Column(
-                                        children: [
-                                          Text(snapshot.data?.diaChi ?? "",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 1),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                Icons.room,
+                                color: Colors.red,
+                                size: 30,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                  width: 215,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Địa chỉ nhận hàng\n',
+                                        style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.w900),
                                       ),
-                                    ),
-                                  ],
-                                )),
-                            const Spacer(),
-                            IconButton(
-                              alignment: Alignment.topCenter,
-                              padding: const EdgeInsets.only(top: 1),
-                              icon: const Icon(Icons.arrow_forward_ios),
-                              onPressed: () async {
-                                final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AddressUserScreen(
-                                              user: user!,
-                                              check: true,
-                                              dc: dc!,
-                                            )));
-                                setState(() {
-                                  //idDC=result;
-                                  dc = result;
-                                });
-                              },
-                            ),
-                          ],
+                                      Text(
+                                        snapshot.data?.hoTen ?? "",
+                                        style: const TextStyle(
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        snapshot.data?.sDT ?? "",
+                                        style: const TextStyle(
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          children: [
+                                            Text(snapshot.data?.diaChi ?? "",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w500)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                              const Spacer(),
+                              IconButton(
+                                alignment: Alignment.topCenter,
+                                padding: const EdgeInsets.only(top: 1),
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddressUserScreen(
+                                                user: user!,
+                                                check: true,
+                                                dc: dc,
+                                              )));
+                                              setState(() {
+                                                 dc=result;       
+                                              });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }
-                return const Text('ko dữ liệu');
-              },
+                    );
+                  }
+                  return const Text('ko dữ liệu');
+                },
+              ) ,
+              child: FutureBuilder<Address?>(
+                future: apiDiaChiKH(dc, user!.id!),
+                builder: (context, snapshot) {
+                  bool check;
+                  if (snapshot.hasData) {
+                    if (snapshot.data?.id == null) {
+                      check = false;
+                    } else {
+                      check = true;
+                    }
+                    return Visibility(
+                      visible: check,
+                      replacement: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressUserScreen(user: user!, check: check, dc: dc!)));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          color: Colors.white,
+                          child: Row(
+                            children: const <Widget>[
+                              Text(
+                                'Thêm địa chỉ mới',
+                                style:
+                                    TextStyle(color: Colors.black, fontSize: 15),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.add,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+            
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 15),
+                        height: 130,
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 1),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                Icons.room,
+                                color: Colors.red,
+                                size: 30,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                  width: 215,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Địa chỉ nhận hàng\n',
+                                        style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                      Text(
+                                        snapshot.data?.hoTen ?? "",
+                                        style: const TextStyle(
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        snapshot.data?.sDT ?? "",
+                                        style: const TextStyle(
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          children: [
+                                            Text(snapshot.data?.diaChi ?? "",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w500)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                              const Spacer(),
+                              IconButton(
+                                alignment: Alignment.topCenter,
+                                padding: const EdgeInsets.only(top: 1),
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddressUserScreen(
+                                                user: user!,
+                                                check: true,
+                                                dc: dc!,
+                                              )));
+                                              setState(() {
+                                                 dc=result;       
+                                              });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return const Text('ko dữ liệu');
+                },
+              ),
             ),
 
             const SizedBox(
@@ -187,7 +306,6 @@ class _CartScreenState extends State<CartScreen> {
               final cart = Provider.of<CartProvider>(context);
               return FutureBuilder(
                   future: cart.getData(),
-
                   builder: (context, AsyncSnapshot<List<Cart>?> snapshot) {
                     if (snapshot.hasData) {
                       return ListView.separated(
@@ -426,7 +544,7 @@ class _CartScreenState extends State<CartScreen> {
 
             final prcart = Provider.of<CartProvider>(context);
             var total = prcart.getTotalPrice();
-            final cart = prcart.getData();
+            //final cart = prcart.getData();
             bool ischeck=true;
             if(total==0){ischeck=false;}
 
@@ -500,7 +618,7 @@ class _CartScreenState extends State<CartScreen> {
                               user!.id!,
                               int.parse((total.toInt() + ship).toString()),
                               0,
-                              dc!,
+                              dc,
                               context);
                               ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
